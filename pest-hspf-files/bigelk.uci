@@ -1,0 +1,831 @@
+RUN
+ 
+GLOBAL
+  Big Elk Creek Hydrology
+  START       1995/10/01 00:00  END    2014/12/30 24:00
+  RUN INTERP OUTPT LEVELS    3    0
+  RESUME     0 RUN     1                          UNITS    1
+END GLOBAL
+ 
+FILES
+<FILE>  <UN#>***<----FILE NAME------------------------------------------------->
+MESSU      24   bigelk.ech
+           91   bigelk.out
+WDM1       25   bigelk_out.wdm
+WDM2       26   bigelkwqupdt.wdm
+BINO       92   bigelk.hbn
+PESTSU     27   bigelk.sup
+END FILES
+ 
+OPN SEQUENCE
+    INGRP              INDELT 01:00
+      PERLND     111
+      PERLND     112
+      PERLND     121
+      PERLND     122
+      PERLND     212
+      PERLND     221
+      PERLND     222
+      PERLND     312
+      PERLND     321
+      PERLND     322
+      IMPLND     301
+      IMPLND     302
+      RCHRES       1
+      RCHRES       2
+      RCHRES       3
+      RCHRES       4
+      RCHRES       5
+      RCHRES       6
+      RCHRES       7
+      RCHRES       8
+      RCHRES       9
+      RCHRES      10
+      RCHRES      11
+      RCHRES      12
+      RCHRES      13
+      RCHRES      14
+      RCHRES      15
+      RCHRES      16
+      RCHRES      17
+      RCHRES      18
+      COPY         1
+    END INGRP
+END OPN SEQUENCE
+ 
+PERLND
+  ACTIVITY
+*** <PLS >               Active Sections                               ***
+*** x -  x ATMP SNOW PWAT  SED  PST  PWG PQAL MSTL PEST NITR PHOS TRAC ***
+  111  322    0    0    1    0    0    0    0    0    0    0    0    0
+  END ACTIVITY
+
+  PRINT-INFO
+*** < PLS>                       Print-flags                           PIVL  PYR
+*** x  - x ATMP SNOW PWAT  SED  PST  PWG PQAL MSTL PEST NITR PHOS TRAC
+  111  322    0    0    4    0    0    0    0    0    0    0    0    0    1    9
+  END PRINT-INFO
+
+  BINARY-INFO
+*** < PLS>               Binary Output Flags                           PIVL  PYR
+*** x  - x ATMP SNOW PWAT  SED  PST  PWG PQAL MSTL PEST NITR PHOS TRAC
+  111  322    0    0    4    0    0    0    0    0    0    0    0    0    1    9
+  END BINARY-INFO
+
+  GEN-INFO
+***             Name                  Unit-systems   Printer BinaryOut
+*** <PLS >                                t-series Engl Metr Engl Metr
+*** x -  x                                 in  out
+  111     Forest/LPerm/Wet                   1    1    0    0    0    
+  112     Forest/LPerm/Dry                   1    1    0    0    0    
+  121     Forest/HPerm/Wet                   1    1    0    0    0    
+  122     Forest/HPerm/Dry                   1    1    0    0    0    
+  212     Pasture/LPerm/Dry                  1    1    0    0    0    
+  221     Pasture/HPerm/Wet                  1    1    0    0    0    
+  222     Pasture/HPerm/Dry                  1    1    0    0    0    
+  312     Developed/LPerm/Dry                1    1    0    0    0    
+  321     Developed/HPerm/Wet                1    1    0    0    0    
+  322     Developed/LPerm/Dry                1    1    0    0    0    
+  END GEN-INFO
+
+  PWAT-PARM1
+*** <PLS >                   Flags
+*** x -  x CSNO RTOP UZFG  VCS  VUZ  VNN VIFW VIRC  VLE IFFC  HWT IRRG IFRD
+  111  322    0    1    1    1    0    0    0    0    1    1    0    0    0
+  END PWAT-PARM1
+
+  PWAT-PARM2
+*** < PLS>    FOREST      LZSN    INFILT      LSUR     SLSUR     KVARY     AGWRC
+*** x  - x                (in)   (in/hr)      (ft)              (1/in)   (1/day)
+  111     ~1~     0.        8.      0.05       270      0.15        0.      0.98
+  112     ~2~     0.        3.      0.05       270      0.15        0.      0.98
+  121     ~3~     0.        8.       0.1       270      0.15        0.      0.98
+  122     ~4~     0.        3.       0.1       270      0.15        0.      0.98
+  212     ~5~     0.        3.      0.05       270      0.15        0.      0.98
+  221     ~6~     0.        8.       0.1       270      0.15        0.      0.98
+  222     ~7~     0.        3.       0.1       270      0.15        0.      0.98
+  312     ~8~     0.        3.      0.05       270      0.15        0.      0.98
+  321     ~9~     0.        8.       0.1       270      0.15        0.      0.98
+  322     ~10~    0.        3.       0.1       270      0.15        0.      0.98
+  END PWAT-PARM2
+
+  PWAT-PARM3
+*** < PLS>    PETMAX    PETMIN    INFEXP    INFILD    DEEPFR    BASETP    AGWETP
+*** x  - x   (deg F)   (deg F)
+  111  322~11~   32.       30.        2.        2.      0.01      0.03        0.
+  END PWAT-PARM3
+
+  PWAT-PARM4
+*** <PLS >     CEPSC      UZSN      NSUR     INTFW       IRC     LZETP
+*** x -  x      (in)      (in)                       (1/day)
+  111  122~12~   0.1       0.5       0.3       1.0       0.5       0.1
+  212  222~13~   0.1       0.5       0.3       1.0       0.5       0.1
+  312  322~14~   0.1       0.5       0.3       1.0       0.5       0.1
+  END PWAT-PARM4
+
+  PWAT-STATE1
+*** < PLS>  PWATER state variables (in)
+*** x  - x      CEPS      SURS       UZS      IFWS       LZS      AGWS      GWVS
+  111  322      0.00      0.00       0.5      0.00       0.5       1.0      0.00
+  END PWAT-STATE1
+
+  MON-INTERCEP
+*** <PLS >  Interception storage capacity at start of each month (in)
+*** x -  x  JAN  FEB  MAR  APR  MAY  JUN  JUL  AUG  SEP  OCT  NOV  DEC
+  111  122~15~5 0.15 0.15  0.2  0.2  0.2  0.2  0.2  0.2  0.2 0.15 0.15
+  212  222~16~5 0.15 0.15  0.2  0.2  0.2  0.2  0.2  0.2  0.2 0.15 0.15
+  312  322~17~5 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05
+  END MON-INTERCEP
+
+  MON-LZETPARM
+*** <PLS >  Lower zone evapotransp   parm at start of each month
+*** x -  x  JAN  FEB  MAR  APR  MAY  JUN  JUL  AUG  SEP  OCT  NOV  DEC
+  111  122~18~6  0.6  0.6  0.7  0.8  0.8  0.8  0.8  0.8  0.7  0.6  0.6
+  212  222~19~2  0.2  0.2  0.3  0.4  0.4  0.4  0.4  0.4  0.3  0.2  0.2
+  312  322~20~2  0.2  0.2  0.3  0.4  0.4  0.4  0.4  0.4  0.3  0.2  0.2
+  END MON-LZETPARM
+
+END PERLND
+ 
+IMPLND
+  ACTIVITY
+*** <ILS >               Active Sections
+*** x -  x ATMP SNOW IWAT  SLD  IWG IQAL
+  301  302    0    0    1    0    0    0
+  END ACTIVITY
+
+  PRINT-INFO
+*** <ILS > ******** Print-flags ******** PIVL  PYR
+*** x -  x ATMP SNOW IWAT  SLD  IWG IQAL *********
+  301  302    0    0    4    0    0    0    1    9
+  END PRINT-INFO
+
+  BINARY-INFO
+*** <ILS > **** Binary-Output-flags **** PIVL  PYR
+*** x -  x ATMP SNOW IWAT  SLD  IWG IQAL *********
+  301  302    0    0    4    0    0    0    1    9
+  END BINARY-INFO
+
+  GEN-INFO
+***             Name             Unit-systems   Printer BinaryOut
+*** <ILS >                           t-series Engl Metr Engl Metr
+*** x -  x                            in  out
+  301     Developed/Wet                1    1    0    0    0    0
+  302     Developed/Dry                1    1    0    0    0    0
+  END GEN-INFO
+
+  IWAT-PARM1
+*** <ILS >        Flags
+*** x -  x CSNO RTOP  VRS  VNN RTLI
+  301  302    0    1    0    0    0
+  END IWAT-PARM1
+
+  IWAT-PARM2
+*** <ILS >      LSUR     SLSUR      NSUR     RETSC
+*** x -  x      (ft)                          (in)
+  301  302       100     0.05       0.05       0.1
+  END IWAT-PARM2
+
+  IWAT-PARM3
+*** <ILS >    PETMAX    PETMIN
+*** x -  x   (deg F)   (deg F)
+  301  302       32.       30.
+  END IWAT-PARM3
+
+  IWAT-STATE1
+*** <ILS >  IWATER state variables (inches)
+*** x -  x      RETS      SURS
+  301  302      0.00      0.00
+  END IWAT-STATE1
+
+END IMPLND
+ 
+COPY
+  TIMESERIES
+    #    #  NPT  NMN ***
+    1              4
+  END TIMESERIES
+
+END COPY
+ 
+RCHRES
+  ACTIVITY
+*** RCHRES  Active sections
+*** x -  x HYFG ADFG CNFG HTFG SDFG GQFG OXFG NUFG PKFG PHFG
+    1   18    1    0    0    0    0    0    0    0    0    0
+  END ACTIVITY
+
+  PRINT-INFO
+*** RCHRES  Printout level flags
+*** x -  x HYDR ADCA CONS HEAT  SED  GQL OXRX NUTR PLNK PHCB PIVL  PYR
+    1   18    4    0    0    0    0    0    0    0    0    0    1    9
+  END PRINT-INFO
+
+  BINARY-INFO
+*** RCHRES  Binary Output level flags
+*** x -  x HYDR ADCA CONS HEAT  SED  GQL OXRX NUTR PLNK PHCB PIVL  PYR
+    1   18    4    0    0    0    0    0    0    0    0    0    1    9
+  END BINARY-INFO
+
+  GEN-INFO
+***              Name           Nexits   Unit Systems   Printer
+*** RCHRES                                  t-series  Engl Metr LKFG
+*** x -  x                                    in  out
+    1     Big Elk Crk,Headwate   rs            1    1    0    0    0    0  
+    2     Spout Crk                            1    1    0    0    0    0  
+    3     Big Elk Crk,Up Feagl   es            1    1    0    0    0    0  
+    4     Feagles Crk                          1    1    0    0    0    0  
+    5     Big Elk Crk,Up Grant                 1    1    0    0    0    0  
+    6     Grant Creek                          1    1    0    0    0    0  
+    7     Big Elk Crk,Up Wolf                  1    1    0    0    0    0  
+    8     Wolf Crk                             1    1    0    0    0    0  
+    9     Big Elk Crk,Up 34794                 1    1    0    0    0    0  
+   10     Big Elk Crk,Up Deer                  1    1    0    0    0    0  
+   11     Deer Crk                             1    1    0    0    0    0  
+   12     Big Elk Crk,Up 34460                 1    1    0    0    0    0  
+   13     Big Elk Crk,Up Beave    r            1    1    0    0    0    0  
+   14     Beaver Crk                           1    1    0    0    0    0  
+   15     Big Elk Crk,Up Bear                  1    1    0    0    0    0  
+   16     Bear Crk                             1    1    0    0    0    0  
+   17     Big Elk Crk,Up 34452                 1    1    0    0    0    0  
+   18     Big Elk Crk,Outlet                   1    1    0    0    0    0  
+  END GEN-INFO
+
+  HYDR-PARM1
+***         Flags for HYDR section
+***RC HRES  VC A1 A2 A3  ODFVFG for each *** ODGTFG for each     FUNCT  for each
+*** x  - x  FG FG FG FG  possible   exit *** possible   exit     possible   exit
+    1   18   0  1  1  1    4  0  0  0  0       0  0  0  0  0       1  1  1  1  1
+  END HYDR-PARM1
+
+  HYDR-PARM2
+*** RCHRES FTBW FTBU       LEN     DELTH     STCOR        KS      DB50
+*** x -  x             (miles)      (ft)      (ft)                (in)
+    1         0    1      7.13       999       0.0       0.5      0.01
+    2         0    2      5.76       999       0.0       0.5      0.01
+    3         0    3      0.16       999       0.0       0.5      0.01
+    4         0    4      5.61       999       0.0       0.5      0.01
+    5         0    5      0.91       999       0.0       0.5      0.01
+    6         0    6      5.46       999       0.0       0.5      0.01
+    7         0    7      2.43       999       0.0       0.5      0.01
+    8         0    8      3.34       999       0.0       0.5      0.01
+    9         0    9      3.77       999       0.0       0.5      0.01
+   10         0   10      0.77       999       0.0       0.5      0.01
+   11         0   11      4.34       999       0.0       0.5      0.01
+   12         0   12      2.21       999       0.0       0.5      0.01
+   13         0   13      6.91       999       0.0       0.5      0.01
+   14         0   14      4.53       999       0.0       0.5      0.01
+   15         0   15      0.22       999       0.0       0.5      0.01
+   16         0   16      4.96       999       0.0       0.5      0.01
+   17         0   17      1.85       999       0.0       0.5      0.01
+   18         0   18      3.18       999       0.0       0.5      0.01
+  END HYDR-PARM2
+
+  HYDR-INIT
+***         Initial conditions for HYDR section
+***RC HRES       VOL  CAT Initial value  of COLIND     initial  value  of OUTDGT
+*** x  - x     ac-ft      for each possible   exit  for each possible exit,ft3
+    1             42         4    4    4    4    4         0    0    0    0    0
+    2             25         4    4    4    4    4         0    0    0    0    0
+    3              1         4    4    4    4    4         0    0    0    0    0
+    4             20         4    4    4    4    4         0    0    0    0    0
+    5             10         4    4    4    4    4         0    0    0    0    0
+    6             20         4    4    4    4    4         0    0    0    0    0
+    7             35         4    4    4    4    4         0    0    0    0    0
+    8             10         4    4    4    4    4         0    0    0    0    0
+    9             65         4    4    4    4    4         0    0    0    0    0
+   10             13         4    4    4    4    4         0    0    0    0    0
+   11             13         4    4    4    4    4         0    0    0    0    0
+   12             42         4    4    4    4    4         0    0    0    0    0
+   13            150         4    4    4    4    4         0    0    0    0    0
+   14              9         4    4    4    4    4         0    0    0    0    0
+   15              5         4    4    4    4    4         0    0    0    0    0
+   16             12         4    4    4    4    4         0    0    0    0    0
+   17             44         4    4    4    4    4         0    0    0    0    0
+   18             78         4    4    4    4    4         0    0    0    0    0
+  END HYDR-INIT
+
+END RCHRES
+ 
+FTABLES
+ 
+  FTABLE      1
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0      26.6       0.0       0.0
+       0.2      27.0       5.6       8.4
+       2.1      30.3      59.7     388.1
+       2.6      31.1      75.1     554.0
+       3.3      93.9     135.4     725.9
+       3.9      96.2     197.2    1334.8
+      67.0     314.3   13136.1  637017.8
+     130.0     532.4   39826.3 2826807.0
+  END FTABLE  1
+ 
+  FTABLE      2
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0      18.6       0.0       0.0
+       0.2      18.9       3.4       5.4
+       1.8      21.1      35.8     247.9
+       2.3      21.8      46.5     372.9
+       2.9      65.7      82.2     473.6
+       3.4      67.2     118.8     859.5
+      58.7     221.6    8102.7  424263.5
+     114.0     375.9   24622.3 1888039.0
+  END FTABLE  2
+ 
+  FTABLE      3
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0       0.7       0.0       0.0
+       0.3       0.7       0.2      14.9
+       2.6       0.8       2.0     689.1
+       3.2       0.9       2.5     974.0
+       4.0       2.6       4.6    1274.6
+       4.8       2.6       6.7    2343.6
+      82.5       8.5     439.5 1111878.0
+     160.2      14.4    1328.8 4917861.0
+  END FTABLE  3
+ 
+  FTABLE      4
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0      16.3       0.0       0.0
+       0.2      16.5       2.6       4.9
+       1.6      18.5      27.9     224.2
+       2.1      19.2      37.3     352.8
+       2.6      57.6      65.7     447.1
+       3.1      58.9      94.9     809.9
+      53.0     194.6    6414.0  393527.3
+     102.8     330.3   19496.5 1751849.0
+  END FTABLE  4
+ 
+  FTABLE      5
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0       4.9       0.0       0.0
+       0.3       4.9       1.4      16.6
+       2.9       5.5      15.0     763.9
+       3.6       5.7      18.9    1095.3
+       4.5      17.0      34.1    1432.7
+       5.4      17.4      49.6    2633.5
+      92.5      56.1    3251.4 1237162.0
+     179.6      94.7    9817.3 5462906.0
+  END FTABLE  5
+ 
+  FTABLE      6
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0      16.5       0.0       0.0
+       0.2      16.8       2.8       5.6
+       1.7      18.8      30.0     258.4
+       2.1      19.3      37.6     367.5
+       2.7      58.3      69.3     498.3
+       3.2      59.8     101.8     928.7
+      55.1     197.0    6757.7  438222.8
+     106.9     334.1   20525.6 1948792.0
+  END FTABLE  6
+ 
+  FTABLE      7
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0      14.4       0.0       0.0
+       0.3      14.6       4.6      21.8
+       3.2      16.3      49.1    1007.0
+       4.0      16.8      62.3    1460.5
+       5.0      50.5     112.2    1909.6
+       6.0      51.7     163.3    3509.2
+     102.5     165.1   10624.8 1634200.0
+     199.0     278.6   32035.6 7204016.0
+  END FTABLE  7
+ 
+  FTABLE      8
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0       8.4       0.0       0.0
+       0.2       8.5       1.3       3.7
+       1.5       9.6      13.5     171.0
+       1.8       9.9      16.5     231.7
+       2.3      29.9      29.7     304.1
+       2.7      30.6      43.3     559.9
+      46.9     102.0    2971.1  276503.9
+      91.0     173.5    9053.5 1234536.0
+  END FTABLE  8
+ 
+  FTABLE      9
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0      24.5       0.0       0.0
+       0.4      24.8       8.6      27.8
+       3.5      27.7      91.4    1281.4
+       4.3      28.5     113.9    1805.6
+       5.4      85.9     207.3    2398.8
+       6.5      87.9     302.9    4438.0
+     111.5     279.7   19604.7 2054957.0
+     216.5     471.6   59047.6 9046877.0
+  END FTABLE  9
+ 
+  FTABLE     10
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0       5.1       0.0       0.0
+       0.4       5.1       1.8      27.9
+       3.5       5.7      18.8    1286.2
+       4.3       5.9      23.5    1812.3
+       5.4      17.7      42.7    2407.2
+       6.5      18.1      62.4    4453.3
+     111.9      57.6    4051.7 2072861.0
+     217.2      97.1   12204.3 9126533.0
+  END FTABLE 10
+ 
+  FTABLE     11
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0      11.4       0.0       0.0
+       0.2      11.5       1.7       3.8
+       1.5      12.9      18.2     177.6
+       1.9      13.4      23.5     263.3
+       2.4      40.2      41.4     332.6
+       2.8      41.1      59.7     602.1
+      48.3     136.8    4102.2  299551.3
+      93.7     232.4   12490.8 1336312.0
+  END FTABLE 11
+ 
+  FTABLE     12
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0      15.3       0.0       0.0
+       0.4      15.5       5.7      32.4
+       3.7      17.2      60.2    1494.8
+       4.6      17.7      75.9    2148.3
+       5.8      53.5     136.7    2806.9
+       6.9      54.7     198.8    5157.7
+     118.0     173.5   12875.6 2394621.0
+     229.1     292.4   38755.010534330.0
+  END FTABLE 12
+ 
+  FTABLE     13
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0      50.6       0.0       0.0
+       0.4      51.2      19.3      35.8
+       3.8      56.9     204.3    1653.1
+       4.8      58.6     262.1    2439.5
+       6.0     176.5     471.5    3184.4
+       7.2     180.6     685.8    5848.4
+     123.9     571.3   44537.6 2733712.0
+     240.5     962.1  133970.412017020.0
+  END FTABLE 13
+ 
+  FTABLE     14
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0       9.7       0.0       0.0
+       0.1       9.8       1.2       2.2
+       1.2      11.0      12.4      99.7
+       1.5      11.3      15.7     144.7
+       1.9      34.1      29.2     199.0
+       2.3      35.0      43.0     372.9
+      39.8     117.4    2900.3  178318.1
+      77.3     199.7    8845.3  796898.8
+  END FTABLE 14
+ 
+  FTABLE     15
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0       1.6       0.0       0.0
+       0.4       1.6       0.6      38.3
+       3.9       1.8       6.7    1766.3
+       4.9       1.9       8.6    2583.3
+       6.2       5.7      15.6    3422.3
+       7.4       5.8      22.7    6322.6
+     126.5      18.3    1456.7 2893341.0
+     245.5      30.8    4378.712707310.0
+  END FTABLE 15
+ 
+  FTABLE     16
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0      11.5       0.0       0.0
+       0.1      11.6       1.5       2.2
+       1.3      13.0      15.9     103.1
+       1.7      13.5      21.2     161.2
+       2.1      40.5      37.3     202.8
+       2.5      41.5      53.7     366.2
+      43.1     138.9    3712.0  183088.7
+      83.6     236.4   11320.9  818352.4
+  END FTABLE 16
+ 
+  FTABLE     17
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0      14.3       0.0       0.0
+       0.4      14.5       5.9      43.0
+       4.1      16.2      62.5    1981.9
+       5.1      16.6      78.9    2850.8
+       6.4      50.1     140.9    3669.6
+       7.6      51.2     204.2    6703.9
+     130.5     161.6   13276.6 3146261.0
+     253.3     272.0   39910.013819950.0
+  END FTABLE 17
+ 
+  FTABLE     18
+ rows cols                               ***
+    8    4
+     depth      area    volume  outflow1 ***
+       0.0      25.1       0.0       0.0
+       0.4      25.4      10.4      39.9
+       4.1      28.3     109.5    1838.5
+       5.2      29.1     141.0    2731.4
+       6.5      87.6     249.3    3466.6
+       7.7      89.5     360.1    6294.8
+     132.7     282.4   23594.1 2993500.0
+     257.6     475.2   70920.113148440.0
+  END FTABLE 18
+END FTABLES
+ 
+EXT SOURCES
+<-Volume-> <Member> SsysSgap<--Mult-->Tran <-Target vols> <-Grp> <-Member-> ***
+<Name>   x <Name> x tem strg<-factor->strg <Name>   x   x        <Name> x x ***
+*** Met Seg OR350145
+WDM2    31 PREC     ENGL              SAME PERLND 111     EXTNL  PREC  
+WDM2    16 PEVT     ENGL              SAME PERLND 111     EXTNL  PETINP
+*** Met Seg OR350145
+WDM2    31 PREC     ENGL              SAME PERLND 121     EXTNL  PREC  
+WDM2    16 PEVT     ENGL              SAME PERLND 121     EXTNL  PETINP
+*** Met Seg OR350145
+WDM2    31 PREC     ENGL              SAME PERLND 221     EXTNL  PREC  
+WDM2    16 PEVT     ENGL              SAME PERLND 221     EXTNL  PETINP
+*** Met Seg OR350145
+WDM2    31 PREC     ENGL              SAME PERLND 321     EXTNL  PREC  
+WDM2    16 PEVT     ENGL              SAME PERLND 321     EXTNL  PETINP
+*** Met Seg OR358182
+WDM2    11 PREC     ENGL              SAME PERLND 112     EXTNL  PREC  
+WDM2    16 PEVT     ENGL              SAME PERLND 112     EXTNL  PETINP
+*** Met Seg OR358182
+WDM2    11 PREC     ENGL              SAME PERLND 122 212 EXTNL  PREC  
+WDM2    16 PEVT     ENGL              SAME PERLND 122 212 EXTNL  PETINP
+*** Met Seg OR358182
+WDM2    11 PREC     ENGL              SAME PERLND 222 312 EXTNL  PREC  
+WDM2    16 PEVT     ENGL              SAME PERLND 222 312 EXTNL  PETINP
+*** Met Seg OR358182
+WDM2    11 PREC     ENGL              SAME PERLND 322     EXTNL  PREC  
+WDM2    16 PEVT     ENGL              SAME PERLND 322     EXTNL  PETINP
+*** Met Seg OR350145
+WDM2    31 PREC     ENGL              SAME IMPLND 301     EXTNL  PREC  
+WDM2    16 PEVT     ENGL              SAME IMPLND 301     EXTNL  PETINP
+*** Met Seg OR358182
+WDM2    11 PREC     ENGL              SAME IMPLND 302     EXTNL  PREC  
+WDM2    16 PEVT     ENGL              SAME IMPLND 302     EXTNL  PETINP
+*** Met Seg OR358182
+WDM2    11 PREC     ENGL              SAME RCHRES   1  18 EXTNL  PREC  
+WDM2    16 PEVT     ENGL              SAME RCHRES   1  18 EXTNL  POTEV 
+WDM2    11 PREC     ENGL              SAME PERLND 222     EXTNL  PREC    
+END EXT SOURCES
+ 
+SCHEMATIC
+<-Volume->                  <--Area-->     <-Volume->  <ML#> ***       <sb>
+<Name>   x                  <-factor->     <Name>   x        ***        x x
+*** Reach 1
+PERLND 112                      1305.0     RCHRES   1      2
+PERLND 121                      1840.5     RCHRES   1      2
+PERLND 122                      5594.3     RCHRES   1      2
+PERLND 212                       283.8     RCHRES   1      2
+PERLND 221                        54.5     RCHRES   1      2
+PERLND 222                       107.0     RCHRES   1      2
+PERLND 312                        23.1     RCHRES   1      2
+PERLND 321                        20.8     RCHRES   1      2
+PERLND 322                        31.1     RCHRES   1      2
+IMPLND 301                       127.8     RCHRES   1      1
+IMPLND 302                       332.8     RCHRES   1      1
+*** Reach 2
+PERLND 112                       676.7     RCHRES   2      2
+PERLND 122                      5631.7     RCHRES   2      2
+PERLND 212                        54.0     RCHRES   2      2
+PERLND 222                       270.9     RCHRES   2      2
+PERLND 312                         9.2     RCHRES   2      2
+PERLND 322                        33.8     RCHRES   2      2
+IMPLND 302                       263.7     RCHRES   2      1
+*** Reach 3
+PERLND 112                         0.7     RCHRES   3      2
+PERLND 212                         4.4     RCHRES   3      2
+IMPLND 302                         0.2     RCHRES   3      1
+*** Reach Connections
+RCHRES   1                                 RCHRES   3      3
+RCHRES   2                                 RCHRES   3      3
+*** Reach 4
+PERLND 111                         3.3     RCHRES   4      2
+PERLND 112                       111.6     RCHRES   4      2
+PERLND 121                      3164.0     RCHRES   4      2
+PERLND 122                      1589.2     RCHRES   4      2
+PERLND 212                        72.9     RCHRES   4      2
+PERLND 221                        70.9     RCHRES   4      2
+PERLND 222                        51.4     RCHRES   4      2
+PERLND 312                         4.7     RCHRES   4      2
+PERLND 321                        20.6     RCHRES   4      2
+PERLND 322                        12.2     RCHRES   4      2
+IMPLND 301                       126.6     RCHRES   4      1
+IMPLND 302                       103.7     RCHRES   4      1
+*** Reach 5
+PERLND 112                        55.2     RCHRES   5      2
+PERLND 122                       173.0     RCHRES   5      2
+PERLND 212                        98.1     RCHRES   5      2
+PERLND 222                        14.7     RCHRES   5      2
+PERLND 312                         3.0     RCHRES   5      2
+PERLND 322                         0.7     RCHRES   5      2
+IMPLND 302                        22.4     RCHRES   5      1
+RCHRES   3                                 RCHRES   5      3
+RCHRES   4                                 RCHRES   5      3
+*** Reach 6
+PERLND 112                       103.4     RCHRES   6      2
+PERLND 121                      3987.8     RCHRES   6      2
+PERLND 122                      1274.1     RCHRES   6      2
+PERLND 212                        68.1     RCHRES   6      2
+PERLND 222                        78.1     RCHRES   6      2
+PERLND 312                         3.2     RCHRES   6      2
+PERLND 321                        35.6     RCHRES   6      2
+PERLND 322                        11.8     RCHRES   6      2
+IMPLND 301                       218.4     RCHRES   6      1
+IMPLND 302                        91.8     RCHRES   6      1
+*** Reach 7
+PERLND 112                       104.1     RCHRES   7      2
+PERLND 122                       523.1     RCHRES   7      2
+PERLND 212                       158.6     RCHRES   7      2
+PERLND 222                        26.9     RCHRES   7      2
+PERLND 312                         4.7     RCHRES   7      2
+PERLND 322                         1.5     RCHRES   7      2
+IMPLND 302                        38.1     RCHRES   7      1
+RCHRES   5                                 RCHRES   7      3
+RCHRES   6                                 RCHRES   7      3
+*** Reach 8
+PERLND 112                       273.1     RCHRES   8      2
+PERLND 122                      3312.6     RCHRES   8      2
+PERLND 212                        47.6     RCHRES   8      2
+PERLND 222                        68.5     RCHRES   8      2
+PERLND 312                         4.4     RCHRES   8      2
+PERLND 322                        25.4     RCHRES   8      2
+IMPLND 302                       183.4     RCHRES   8      1
+*** Reach 9
+PERLND 112                       304.5     RCHRES   9      2
+PERLND 121                       179.7     RCHRES   9      2
+PERLND 122                      2489.3     RCHRES   9      2
+PERLND 212                        18.5     RCHRES   9      2
+PERLND 222                        34.5     RCHRES   9      2
+PERLND 312                         5.1     RCHRES   9      2
+PERLND 321                         4.0     RCHRES   9      2
+PERLND 322                        10.0     RCHRES   9      2
+IMPLND 301                        24.3     RCHRES   9      1
+IMPLND 302                        93.1     RCHRES   9      1
+RCHRES   7                                 RCHRES   9      3
+RCHRES   8                                 RCHRES   9      3
+*** Reach 10
+PERLND 112                        22.9     RCHRES  10      2
+PERLND 122                       235.3     RCHRES  10      2
+PERLND 212                         0.4     RCHRES  10      2
+PERLND 222                        11.1     RCHRES  10      2
+PERLND 312                         1.0     RCHRES  10      2
+PERLND 322                         0.3     RCHRES  10      2
+IMPLND 302                         8.0     RCHRES  10      1
+RCHRES   9                                 RCHRES  10      3
+*** Reach 11
+PERLND 112                       102.1     RCHRES  11      2
+PERLND 122                      3814.1     RCHRES  11      2
+PERLND 212                         6.4     RCHRES  11      2
+PERLND 222                        86.1     RCHRES  11      2
+PERLND 312                         3.7     RCHRES  11      2
+PERLND 322                        24.4     RCHRES  11      2
+IMPLND 302                       172.7     RCHRES  11      1
+*** Reach 12
+PERLND 112                        83.8     RCHRES  12      2
+PERLND 122                      1034.1     RCHRES  12      2
+PERLND 212                         6.7     RCHRES  12      2
+PERLND 222                         2.0     RCHRES  12      2
+PERLND 312                         0.9     RCHRES  12      2
+PERLND 322                         6.1     RCHRES  12      2
+IMPLND 302                        42.8     RCHRES  12      1
+RCHRES  10                                 RCHRES  12      3
+RCHRES  11                                 RCHRES  12      3
+*** Reach 13
+PERLND 112                       328.0     RCHRES  13      2
+PERLND 121                       207.3     RCHRES  13      2
+PERLND 122                      4347.2     RCHRES  13      2
+PERLND 212                       127.2     RCHRES  13      2
+PERLND 222                       348.7     RCHRES  13      2
+PERLND 312                        10.2     RCHRES  13      2
+PERLND 321                         0.8     RCHRES  13      2
+PERLND 322                        19.3     RCHRES  13      2
+IMPLND 301                         4.8     RCHRES  13      1
+IMPLND 302                       181.3     RCHRES  13      1
+RCHRES  12                                 RCHRES  13      3
+*** Reach 14
+PERLND 112                        41.4     RCHRES  14      2
+PERLND 122                      2203.9     RCHRES  14      2
+PERLND 212                        26.2     RCHRES  14      2
+PERLND 222                       191.9     RCHRES  14      2
+PERLND 312                         1.2     RCHRES  14      2
+PERLND 322                        13.6     RCHRES  14      2
+IMPLND 302                        90.7     RCHRES  14      1
+*** Reach 15
+PERLND 112                         6.0     RCHRES  15      2
+PERLND 212                         0.2     RCHRES  15      2
+RCHRES  13                                 RCHRES  15      3
+RCHRES  14                                 RCHRES  15      3
+*** Reach 16
+PERLND 112                        97.9     RCHRES  16      2
+PERLND 122                      2669.2     RCHRES  16      2
+PERLND 212                        65.6     RCHRES  16      2
+PERLND 222                        85.2     RCHRES  16      2
+PERLND 312                         2.2     RCHRES  16      2
+PERLND 322                        28.7     RCHRES  16      2
+IMPLND 302                       189.5     RCHRES  16      1
+*** Reach 17
+PERLND 112                        75.2     RCHRES  17      2
+PERLND 122                       752.8     RCHRES  17      2
+PERLND 212                        97.0     RCHRES  17      2
+PERLND 222                       100.5     RCHRES  17      2
+PERLND 312                         2.3     RCHRES  17      2
+PERLND 322                         3.6     RCHRES  17      2
+IMPLND 302                        36.5     RCHRES  17      1
+RCHRES  15                                 RCHRES  17      3
+RCHRES  16                                 RCHRES  17      3
+*** Reach 18
+PERLND 112                       117.9     RCHRES  18      2
+PERLND 122                      2003.6     RCHRES  18      2
+PERLND 212                        15.8     RCHRES  18      2
+PERLND 222                        74.3     RCHRES  18      2
+PERLND 312                         3.5     RCHRES  18      2
+PERLND 322                        21.5     RCHRES  18      2
+IMPLND 302                       154.0     RCHRES  18      1
+RCHRES  17                                 RCHRES  18      3
+*** Copy 1
+PERLND 111                         3.3     COPY     1      4
+PERLND 112                      3809.5     COPY     1      4
+PERLND 121                      9379.3     COPY     1      4
+PERLND 122                     37647.5     COPY     1      4
+PERLND 212                      1151.5     COPY     1      4
+PERLND 221                       125.4     COPY     1      4
+PERLND 222                      1551.8     COPY     1      4
+PERLND 312                        82.4     COPY     1      4
+PERLND 321                        81.8     COPY     1      4
+PERLND 322                       244.0     COPY     1      4
+END SCHEMATIC
+ 
+EXT TARGETS
+<-Volume-> <-Grp> <-Member-><--Mult-->Tran <-Volume-> <Member> Tsys Aggr Amd ***
+<Name>   x        <Name> x x<-factor->strg <Name>   x <Name>qf  tem strg strg***
+RCHRES  18 HYDR   RO     1 1          AVER WDM1   102 FLOW   1 ENGL AGGR REPL
+COPY     1 OUTPUT MEAN   1 1          AVER WDM1   103 PERO   1 ENGL AGGR REPL
+COPY     1 OUTPUT MEAN   2 1          AVER WDM1   104 AGWO   1 ENGL AGGR REPL
+COPY     1 OUTPUT MEAN   3 1          AVER WDM1   105 IFWO   1 ENGL AGGR REPL
+COPY     1 OUTPUT MEAN   4 1          AVER WDM1   106 SURO   1 ENGL AGGR REPL
+END EXT TARGETS
+ 
+MASS-LINK
+ 
+  MASS-LINK        1
+<-Volume-> <-Grp> <-Member-><--Mult-->     <-Target vols> <-Grp> <-Member->  ***
+<Name>            <Name> x x<-factor->     <Name>                <Name> x x  ***
+IMPLND     IWATER SURO       0.0833333     RCHRES         INFLOW IVOL    
+  END MASS-LINK    1
+ 
+  MASS-LINK        2
+<-Volume-> <-Grp> <-Member-><--Mult-->     <-Target vols> <-Grp> <-Member->  ***
+<Name>            <Name> x x<-factor->     <Name>                <Name> x x  ***
+PERLND     PWATER PERO       0.0833333     RCHRES         INFLOW IVOL    
+  END MASS-LINK    2
+ 
+  MASS-LINK        3
+<-Volume-> <-Grp> <-Member-><--Mult-->     <-Target vols> <-Grp> <-Member->  ***
+<Name>            <Name> x x<-factor->     <Name>                <Name> x x  ***
+RCHRES     ROFLOW                          RCHRES         INFLOW         
+  END MASS-LINK    3
+ 
+  MASS-LINK        4
+<-Volume-> <-Grp> <-Member-><--Mult-->     <-Target vols> <-Grp> <-Member->  ***
+<Name>            <Name> x x<-factor->     <Name>                <Name> x x  ***
+PERLND     PWATER PERO       0.0833333     COPY           INPUT  MEAN   1
+PERLND     PWATER AGWO       0.0833333     COPY           INPUT  MEAN   2
+PERLND     PWATER IFWO       0.0833333     COPY           INPUT  MEAN   3
+PERLND     PWATER SURO       0.0833333     COPY           INPUT  MEAN   4
+  END MASS-LINK    4
+END MASS-LINK
+ 
+END RUN

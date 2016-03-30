@@ -1,0 +1,69 @@
+
+ Processing information contained in TSPROC input file tsproc.dat....
+
+ Processing SETTINGS block....
+    DATE_FORMAT mm/dd/yyyy
+    CONTEXT pest_prep
+    Processing of SETTINGS block complete.
+
+ Processing GET_SERIES_WDM block....
+    CONTEXT all
+    FILE bigelk_out.wdm
+    DSN 102
+    NEW_SERIES_NAME mflow
+    DEF_TIME 00:00:00
+    FILTER -999
+    Reading WDM file bigelk_out.wdm....
+    Series "mflow" successfully imported from file bigelk_out.wdm
+
+ Processing GET_SERIES_WDM block....
+    CONTEXT all
+    FILE bigelk_out.wdm
+    DSN 301
+    NEW_SERIES_NAME oflow
+    DEF_TIME 00:00:00
+    FILTER -999
+    Reading WDM file bigelk_out.wdm....
+    Series "oflow" successfully imported from file bigelk_out.wdm
+
+ Processing GET_SERIES_WDM block....
+    CONTEXT all
+    FILE bigelk_out.wdm
+    DSN 103
+    NEW_SERIES_NAME mpero
+    FILTER -999
+    Reading WDM file bigelk_out.wdm....
+    Series "mpero" successfully imported from file bigelk_out.wdm
+
+ Processing GET_SERIES_WDM block....
+    CONTEXT all
+    FILE bigelk_out.wdm
+    DSN 104
+    NEW_SERIES_NAME magwo
+    FILTER -999
+    Reading WDM file bigelk_out.wdm....
+    Series "magwo" successfully imported from file bigelk_out.wdm
+
+ Processing SERIES_EQUATION block....
+    CONTEXT all
+    NEW_SERIES_NAME mlog
+    EQUATION "log10(mflow+0.0001)"
+    Series "mlog" successfully calculated using series equation.
+
+ Processing SERIES_EQUATION block....
+    CONTEXT pest_prep
+    NEW_SERIES_NAME olog
+    EQUATION "log10(oflow+0.0001)"
+    Series "olog" successfully calculated using series equation.
+
+ Processing VOLUME_CALCULATION block....
+    CONTEXT all
+    SERIES_NAME mpero
+    NEW_V_TABLE_NAME mpero_tot
+    DATE_FILE dates_tot.dat
+    FLOW_TIME_UNITS hours
+    FACTOR 1.0000000
+    Reading dates file dates_tot.dat....
+
+ Error: the second date/time on line 1 of file dates_tot.dat postdates the 
+   end of time series "mpero".
