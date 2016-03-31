@@ -2,7 +2,7 @@ RUN
  
 GLOBAL
   Big Elk Creek Hydrology
-  START       1995/10/01 00:00  END    2014/12/30 24:00
+  START       1995/10/01 00:00  END    2014/05/30 24:00
   RUN INTERP OUTPT LEVELS    3    0
   RESUME     0 RUN     1                          UNITS    1
 END GLOBAL
