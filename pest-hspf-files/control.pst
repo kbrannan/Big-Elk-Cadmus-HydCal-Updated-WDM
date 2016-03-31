@@ -6,7 +6,7 @@ restart estimation
 5.0   2.0    0.3    0.03    10  999
 5.0   5.0   1.0e-3
 0.1   aui
-30   .005  4   4  .005   4
+0   .005  4   4  .005   4
 1    1    1
 * parameter groups
 lzsn         relative     1.0000E-02  1.0000E-03  switch      2.000      parabolic

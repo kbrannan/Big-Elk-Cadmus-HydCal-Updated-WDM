@@ -1,7 +1,7 @@
 START SETTINGS
   DATE_FORMAT mm/dd/yyyy
-  CONTEXT pest_prep
-#  CONTEXT model_run
+#  CONTEXT pest_prep
+  CONTEXT model_run
 END SETTINGS
 
 START GET_SERIES_WDM
