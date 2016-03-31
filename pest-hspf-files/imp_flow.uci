@@ -1,0 +1,38 @@
+RUN
+ 
+GLOBAL
+  Big Elk Creek Hydrology
+  START       1995/10/01 00:00  END    2014/05/30 23:00
+  RUN INTERP OUTPT LEVELS    4    0
+  RESUME     0 RUN     1                          UNITS    1
+END GLOBAL
+ 
+FILES
+<FILE>  <UN#>***<----FILE NAME------------------------------------------------->
+MESSU      24   bigelkwq.ech
+WDM1       26   bigelk_out.wdm
+*** MUTSIN 
+           31   obs_flow.mut
+END FILES
+ 
+OPN SEQUENCE
+    INGRP              INDELT 01:00
+*** MUTSIN inputs
+      MUTSIN     001
+    END INGRP
+END OPN SEQUENCE
+
+MUTSIN
+  MUTSINFO
+    # -  #  MFL  NPT  NMN  NLI MSFG ***
+  001        31    0    1    3    3
+  END MUTSINFO
+END MUTSIN
+
+EXT TARGETS
+<-Volume-> <-Grp> <-Member-><--Mult-->Tran <-Volume-> <Member> Tsys Aggr Amd ***
+<Name>   x        <Name> x x<-factor->strg <Name>   x <Name>qf  tem strg strg***
+MUTSIN 001 OUTPUT MEAN   1 1          AVER WDM1   102 FLOW   1 ENGL AGGR REPL
+END EXT TARGETS
+ 
+END RUN
