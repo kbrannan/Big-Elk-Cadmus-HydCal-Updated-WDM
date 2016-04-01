@@ -17,7 +17,8 @@ tmp.bot <- grep("Correlation Coefficient ----->", chr.org.rec) - 1
 chr.org.rec.phi.blk <- chr.org.rec[tmp.top:tmp.bot]
 chr.org.rec.phi.blk <- chr.org.rec.phi.blk[-1 * grep("Objective function ----->", chr.org.rec.phi.blk)]
 
-gsub('', "", chr.org.rec.phi.blk) ## get the names of the part of the oj function
+gsub('\".*$',"",
+  gsub('(^.*\ ")', "", chr.org.rec.phi.blk))[-1] ## get the names of the part of the oj function
 
 
 phi.tot.org <- as.numeric(
