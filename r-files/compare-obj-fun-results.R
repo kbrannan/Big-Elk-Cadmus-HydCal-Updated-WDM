@@ -38,6 +38,7 @@ df.phi <- rbind(df.phi,
                   src = "upd"))
 rm(list=ls(pattern="^tmp\\..*")) ## clean up
 
+## compare org and upd values
 df.phi <- rbind(df.phi,
                 data.frame(
                   name = df.phi[df.phi$src == "upd", "name"],
