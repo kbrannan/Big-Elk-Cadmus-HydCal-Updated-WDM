@@ -36,3 +36,9 @@ df.par <- rbind(df.par,
                   src = "comp"))
 
 df.par[df.par$src == "comp",]
+
+library(ggplot2)
+
+p.pars <- ggplot(data = df.par[df.par$src == "comp", ]) + geom_bar(aes(x=name, y = val ),
+                                                                   stat = "identity")
+plot(p.pars)
