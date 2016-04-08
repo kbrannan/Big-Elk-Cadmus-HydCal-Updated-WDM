@@ -1,7 +1,6 @@
 ## path to rec files
 chr.pest.rec.dir <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM"
 
-## check push
 
 ## get the obj values for the original calibration
 tmp.org.rec <- scan(file = paste0(chr.pest.rec.dir, 
