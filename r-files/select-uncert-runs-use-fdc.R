@@ -33,7 +33,9 @@ for(ii in 1:length(chr.sub.dirs)) {
 ## open connection to the current res file
     con.res <- file(paste0(chr.uncert.rerun.dir, "/", chr.sub.dirs[ii], 
                            "/", chr.res.files[jj]))
+
 ## get modeled flow values
+    tmp.res.file <- readLines(con.res)
     tmp.mflow <- as.numeric(
       substr(tmp.res.file[min(grep("mflow", tmp.res.file)):
                             max(grep("mflow", tmp.res.file))], 46, 62))
