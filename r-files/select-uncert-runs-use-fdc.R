@@ -32,28 +32,30 @@ for(ii in 1:length(chr.sub.dirs)) {
   for(jj in 1:length(chr.res.files)) {
 ## open connection to the current res file
     con.res <- file(paste0(chr.uncert.rerun.dir, "/", chr.sub.dirs[ii], 
-                           "/", chr.res.files[jj]))
-
-## get modeled flow values
-    tmp.res.file <- readLines(con.res)
-    tmp.mflow <- as.numeric(
-      substr(tmp.res.file[min(grep("mflow", tmp.res.file)):
-                            max(grep("mflow", tmp.res.file))], 46, 62))
-## close the file connection
-    close(con.res)
-## calc quantile (flows) for the %-exceed of USGS equation
-    tmp.quant <- quantile(tmp.mflow, 1 - df.fdc.ss.est$FDPercent, names = FALSE)
-## chec if current fdc flows are within the USGS error bars 
-    if(sum(df.fdc.ss.est$lower <= tmp.quant & 
-           tmp.quant <= df.fdc.ss.est$upper) >= 
-       floor(0.75*length(tmp.quant))) {
-## if yes keep file name append to list of files
-      chr.kept.runs <- c(chr.kept.runs, 
-                         paste0(chr.uncert.rerun.dir, "/", 
-                                chr.sub.dirs[ii], "/", chr.res.files[jj]))
-      
-    }
+                           "/", chr.res.files[jj]), open = "r")
+## check connection
+    if(isOpen(con.res)) {
+      ## get modeled flow values
+      tmp.res.file <- readLines(con.res)
+      tmp.mflow <- as.numeric(
+        substr(tmp.res.file[min(grep("mflow", tmp.res.file)):
+                              max(grep("mflow", tmp.res.file))], 46, 62))
+      ## close the file connection
+      close(con.res)
+      ## calc quantile (flows) for the %-exceed of USGS equation
+      tmp.quant <- quantile(tmp.mflow, 1 - df.fdc.ss.est$FDPercent, names = FALSE)
+      ## chec if current fdc flows are within the USGS error bars 
+      if(sum(df.fdc.ss.est$lower <= tmp.quant & 
+             tmp.quant <= df.fdc.ss.est$upper) >= 
+         floor(0.75*length(tmp.quant))) {
+        ## if yes keep file name append to list of files
+        chr.kept.runs <- c(chr.kept.runs, 
+                           paste0(chr.uncert.rerun.dir, "/", 
+                                  chr.sub.dirs[ii], "/", chr.res.files[jj]))
+        
+      }
       rm(list=ls(pattern="^tmp//.*")) ## clean up
+    }
   }
 }
 
