@@ -1,6 +1,6 @@
 ## script run monte carlo anaysis for calib.pst
 
-## follows the preocedure recommended by John Dherty (2016-04-04)
+## follows the preocedure recommended by John Doherty (2016-04-04)
 ## 1. Calibrate
 ## 2. Get the posterior covariance matrix using PREDUNC7
 ## 3. Sample that
