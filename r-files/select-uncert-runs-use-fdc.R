@@ -23,7 +23,7 @@ chr.sub.dirs <- grep("^uncert", list.dirs(path = chr.uncert.rerun.dir,
 chr.kept.runs <- c()
 
 ## loop through sub-dirs
-for(ii in 1:length(chr.sub.dirs)) {
+for(ii in 8:length(chr.sub.dirs)) {
 ## get the file names for the residual (res) files for the current sub-dir
   chr.res.files <- list.files(
     path = paste0(chr.uncert.rerun.dir, "/", chr.sub.dirs[ii]),
@@ -58,6 +58,8 @@ for(ii in 1:length(chr.sub.dirs)) {
     }
   }
 }
+
+save(list = c("chr.kept.runs", "df.fdc.ss.est"), file = paste0(chr.uncert.rerun.dir, "/uncert-run-kept-list.RData"))
 
 
 
