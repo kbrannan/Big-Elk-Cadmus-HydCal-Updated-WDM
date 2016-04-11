@@ -4,26 +4,32 @@ chr.uncert.rerun.dir <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-W
 ## get names of runs selected
 load(paste0(chr.uncert.rerun.dir, "/uncert-run-kept-list.RData"))
 
+chr.kept.runs.res <- gsub("\\.rec$", ".res", chr.kept.runs)
+
 ## loop through res files and estimate FDC for each run
+for(ii in 1:length(chr.kept.runs.res)) {
+  ## read residuals file
+  tmp.chr.res <- scan(file = chr.kept.runs.res[ii], what = "character", 
+                      sep = "\n", quiet = TRUE)
+  ## replace * with x in field names
+  tmp.chr.res[1] <- gsub("\\*","x", tmp.chr.res[1])
+  
+  ## replace spaces among columns with comma
+  tmp.chr.res <- gsub("( ){1,}",",",tmp.chr.res)
+  
+  ## convert chracter vector to data.frame
+  tmp.df.res <- data.frame(do.call(rbind,strsplit(tmp.chr.res,split = ",")), 
+                       stringsAsFactors = FALSE)
+  
+  ## remove first column becuase it is empty
+  tmp.df.res <- tmp.df.res[ ,-1]
+  
+  ## first row is names for columns
+  names(tmp.df.res) <- tmp.df.res[1, ]
+  
+  ## discard first row
+  tmp.df.res <- tmp.df.res[-1, ]
 
-## read residuals file
-chr.res <- scan(file = paste0(chr.dir,"/org-calib/Final_Deliverables_EPA_July2012/PEST_end/control.res"),
-                what = "character", sep = "\n", quiet = TRUE)
-## replace * with x in field names
-chr.res[1] <- gsub("\\*","x",chr.res[1])
+  
+}
 
-## replace spaces among columns with comma
-chr.res <- gsub("( ){1,}",",",chr.res)
-
-## convert chracter vector to data.frame
-df.res <- data.frame(do.call(rbind,strsplit(chr.res,split = ",")), 
-                     stringsAsFactors = FALSE)
-
-## remove first column becuase it is empty
-df.res <- df.res[ ,-1]
-
-## first row is names for columns
-names(df.res) <- df.res[1, ]
-
-## discard first row
-df.res <- df.res[-1, ]
