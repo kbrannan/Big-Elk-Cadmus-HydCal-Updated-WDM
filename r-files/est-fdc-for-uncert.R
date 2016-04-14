@@ -61,7 +61,8 @@ for(ii in 1:length(chr.sub.dirs)) {
   }
 }
 
-save(list = c("chr.kept.runs", "df.fdc.ss.est"), file = paste0(chr.uncert.rerun.dir, "/uncert-run-kept-list.RData"))
+save(list = c("df.fdc", "df.fdc.ss.est"), 
+     file = paste0(chr.uncert.rerun.dir, "/uncert-fdc-est.RData"))
 
 
 
