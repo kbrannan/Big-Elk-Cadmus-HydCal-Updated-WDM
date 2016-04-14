@@ -13,17 +13,17 @@ tmp.ss.est.fn <- paste0("st",tmp.one.station,".xml")
 df.fdc.ss.est <- fdc.ss.estimate(ss.fn=tmp.ss.est.fn, ss.path=get.path("StreamStatsBacteria"))
 
 ## main path for uncert re-reun
-chr.uncert.rerun.dir <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM/pest-hspf-files/upd-uncert/uncert-rerun"
+chr.uncert.rerun.dir <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM/pest-hspf-files/uncert-upd"
 
 ## get sub-dirs for the uncert runs
-chr.sub.dirs <- grep("^uncert", list.dirs(path = chr.uncert.rerun.dir, 
+chr.sub.dirs <- grep("^uncert[^-]", list.dirs(path = chr.uncert.rerun.dir, 
                           full.names = FALSE, recursive = FALSE),
                      value = TRUE)
 ## create empty vector for names of runs to keep
 chr.kept.runs <- c()
 
 ## loop through sub-dirs
-for(ii in 8:length(chr.sub.dirs)) {
+for(ii in 1:length(chr.sub.dirs)) {
 ## get the file names for the residual (res) files for the current sub-dir
   chr.res.files <- list.files(
     path = paste0(chr.uncert.rerun.dir, "/", chr.sub.dirs[ii]),
@@ -44,10 +44,9 @@ for(ii in 8:length(chr.sub.dirs)) {
       close(con.res)
       ## calc quantile (flows) for the %-exceed of USGS equation
       tmp.quant <- quantile(tmp.mflow, 1 - df.fdc.ss.est$FDPercent, names = FALSE)
-      ## chec if current fdc flows are within the USGS error bars 
+      ## check if current fdc flows are within the USGS error bars 
       if(sum(df.fdc.ss.est$lower <= tmp.quant & 
-             tmp.quant <= df.fdc.ss.est$upper) >= 
-         floor(0.75*length(tmp.quant))) {
+             tmp.quant <= df.fdc.ss.est$upper) == (length(tmp.quant))) {
         ## if yes keep file name append to list of files
         chr.kept.runs <- c(chr.kept.runs, 
                            paste0(chr.uncert.rerun.dir, "/", 
