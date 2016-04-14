@@ -1,5 +1,5 @@
 ## main path for uncert re-reun
-chr.uncert.rerun.dir <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM/pest-hspf-files/upd-uncert/uncert-rerun"
+chr.uncert.rerun.dir <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM/pest-hspf-files/uncert-upd"
 
 ## get names of runs selected
 load(paste0(chr.uncert.rerun.dir, "/uncert-run-kept-list.RData"))
