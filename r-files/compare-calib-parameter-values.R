@@ -15,7 +15,7 @@ rm(list=ls(pattern="^tmp\\..*"))  ## clean up
 
 ## get the calibrated parameter values for the updated calibration
 tmp.upd.par <- scan(file = paste0(chr.pest.rec.dir, 
-                                  "/pest-hspf-files/upd-calib/controlwa.par"),
+                                  "/pest-hspf-files/upd-calib/calib.par"),
                     sep = "\n", what = "character")[-1]
 
 tmp.df.upd.par <- gsub('\"', "",do.call(rbind,strsplit(tmp.upd.par, " {1,}"))[, c(-1, -4, -5)])
