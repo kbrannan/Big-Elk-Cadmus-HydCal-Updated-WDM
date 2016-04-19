@@ -3,7 +3,8 @@ library(ggplot2, quietly = TRUE)
 
 
 ## main path for uncert re-reun
-chr.uncert.rerun.dir <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM/pest-hspf-files/uncert-upd"
+##chr.uncert.rerun.dir <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM/pest-hspf-files/uncert-upd"
+chr.uncert.rerun.dir <- "c:/temp/upd-uncert"
 
 ## get fdcs
 load(paste0(chr.uncert.rerun.dir, "/uncert-fdc-est.RData"))

@@ -13,7 +13,8 @@ tmp.ss.est.fn <- paste0("st",tmp.one.station,".xml")
 df.fdc.ss.est <- fdc.ss.estimate(ss.fn=tmp.ss.est.fn, ss.path=get.path("StreamStatsBacteria"))
 
 ## main path for uncert re-reun
-chr.uncert.rerun.dir <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM/pest-hspf-files/uncert-upd"
+##chr.uncert.rerun.dir <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM/pest-hspf-files/uncert-upd"
+chr.uncert.rerun.dir <- "c:temp/upd-uncert"
 
 ## get sub-dirs for the uncert runs
 chr.sub.dirs <- grep("^uncert[^-]", list.dirs(path = chr.uncert.rerun.dir, 

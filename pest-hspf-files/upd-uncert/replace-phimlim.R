@@ -1,4 +1,4 @@
-chr.uncert.dir <- "c:/temp/uncert-upd"
+chr.uncert.dir <- "c:/temp/upd-uncert"
 
 
 chr.addreg <- list.files(path = paste0(chr.uncert.dir, "/addreg-files"), 

@@ -35,7 +35,8 @@ chr.calib.rerun.dir <- paste0(chr.pest.hspf.dir, "/upd-calib")
 
 
 ## main path for uncert re-reun
-chr.uncert.rerun.dir <- paste0(chr.pest.hspf.dir, "/uncert-upd")
+##chr.uncert.rerun.dir <- paste0(chr.pest.hspf.dir, "/uncert-upd")
+chr.uncert.rerun.dir <- "c:/temp/upd-uncert"
 
 ## get sub-dirs for the uncert runs
 chr.sub.dirs <- grep("^uncert[^-]", list.dirs(path = chr.uncert.rerun.dir, 
@@ -98,7 +99,7 @@ if(isOpen(con.res)) {
                              stringsAsFactors = FALSE))
   
 }
-rm(list=ls(pattern="^tmp//.*")) ## clean up
+rm(list=ls(pattern="^tmp//.*.")) ## clean up
 
 
 

@@ -1,18 +1,24 @@
 
 
 ## main path for uncert
-chr.uncert.dir <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM/pest-hspf-files"
+##chr.uncert.dir <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM/pest-hspf-files"
+chr.uncert.dir <- "c:/temp"
 
 ## main path for uncert-rerun
 chr.uncert.rerun.dir <- paste0(chr.uncert.dir, "/upd-uncert")
 
 ## get all the par files used in uncert-rerun
-chr.par.files <- list.files(path = chr.uncert.rerun.dir, pattern = "\\.par$",
+##chr.par.files <- list.files(path = chr.uncert.rerun.dir, pattern = "\\.par$",
+##                            recursive = TRUE, full.names = TRUE)
+chr.par.files <- list.files(path = paste0(chr.uncert.rerun.dir, "/randpar-files"), pattern = "\\.par$",
                             recursive = TRUE, full.names = TRUE)
 
 ## get calibrated par values
-tmp.pars <- scan(file = paste0(chr.uncert.dir, "/upd-calib/calib.par"), 
+##tmp.pars <- scan(file = paste0(chr.uncert.dir, "/upd-calib/calib.par"), 
+##                 what = "character", sep = "\n", quiet = TRUE, skip = 1)
+tmp.pars <- scan(file = "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM/pest-hspf-files/upd-calib/calib.par", 
                  what = "character", sep = "\n", quiet = TRUE, skip = 1)
+
 tmp.par <- do.call(rbind, 
        strsplit(gsub(" {1,}", ",", gsub("(^( ){1,})|(( ){1,}$)", "", tmp.pars)),
                 split = ","))[ , c(-3,-4)]
