@@ -23,9 +23,6 @@ if(isOpen(con.res)) {
                                 gsub("( ){1,}",",", 
                                      tmp.res.file[tmp.peak.rows]), 
                                 split = ","))
-  gsub("[^0-9]","", tmp.stm.peak.chr[, 2])
-  as.numeric(tmp.stm.peak.chr[, 4])
-  as.numeric(tmp.stm.peak.chr[, 5])
   tmp.stm.peak <- data.frame(src = "calib", x = NA, 
                              y = as.numeric(tmp.stm.peak.chr[, 4]), 
                              par = "peak", 
@@ -81,17 +78,32 @@ if(isOpen(con.res)) {
   ## estimate ecdf for obs and model flows, then use ecdfs to get probs for 
   ## storm flows
   
+  ## get ecdf from daily flow data
+  tmp.oflow <- as.numeric(
+    substr(tmp.res.file[min(grep("mflow", tmp.res.file)):
+                          max(grep("mflow", tmp.res.file))], 28, 45))
+  
   tmp.mflow <- as.numeric(
     substr(tmp.res.file[min(grep("mflow", tmp.res.file)):
                           max(grep("mflow", tmp.res.file))], 46, 62))
-  ## calc quantile (flows) for the %-exceed of USGS equation
-  tmp.quant <- quantile(tmp.mflow, 1 - df.fdc.ss.est$FDPercent, names = FALSE)
-  ## add current fdc to data.frame
+  
+  tmp.m.ecdf <- ecdf(tmp.mflow)
+  tmp.o.ecdf <- ecdf(tmp.oflow)
+  ## calc probs for storm flows
+  tmp.stm.peak[tmp.stm.peak$src == "calib" & 
+                 tmp.stm.peak$par == "peak", "x"] <- 1 -
+    tmp.m.ecdf(tmp.stm.peak[tmp.stm.peak$src == "calib" & 
+                              tmp.stm.peak$par == "peak", "y"])  + 1E-06
+  tmp.stm.peak[tmp.stm.peak$src == "obs" & 
+                 tmp.stm.peak$par == "peak", "x"] <- 1 -
+    tmp.o.ecdf(tmp.stm.peak[tmp.stm.peak$src == "obs" & 
+                              tmp.stm.peak$par == "peak", "y"]) + 1E-06
+  
   df.fdc <- rbind(df.fdc, 
-                  data.frame(src = "calib", 
-                             x = df.fdc.ss.est$FDPercent,
-                             y = tmp.quant, par = "est",
-                             run = "calib",
-                             stringsAsFactors = FALSE))
+                  tmp.stm.peak)
 }
-rm(list=ls(pattern="^tmp//.*.")) ## clean up
+rm(list=ls(pattern="^tmp")) ## clean up
+
+
+## save
+save(df.fdc, df.fdc.ss.est, file = paste0(chr.fdc.dir, "/uncert-fdc-est.RData"))
