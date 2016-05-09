@@ -61,8 +61,8 @@ p.mtime00.upd <- p.mtime00.upd +
              aes(x = x * 100, y = y, shape = src, colour = src))
 
 ## plot fdc
-png(file = paste0(chr.bacteria.twg.17.dir, "/tables-charts-figures/fdc-all.png"), 
-    width = 480, height = 480, units = "px", pointsize = 12,
+png(file = paste0(chr.uncert.rerun.dir, "fdc-all.png"), 
+    width = round(1.61803398875 * 480), height = 480, units = "px", pointsize = 12,
     bg = "white", res = NA, family = "", restoreConsole = TRUE)
 plot(p.mtime00.upd)
 dev.off()
