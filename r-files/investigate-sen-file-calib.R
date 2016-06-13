@@ -1,7 +1,7 @@
-chr.sen.dir <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM/org-calib/Final_Deliverables_EPA_July2012/PEST_end"
+chr.sen.dir <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM/pest-hspf-files/upd-calib"
 chr.sen.file <- "calib.sen"
 
-chr.title <- "Parmeter Sensitivity for Original Calibration"
+chr.title <- "Parmeter Sensitivity for Updated Calibration"
 
 ## get parameter sensitvit file
 chr.sen.raw <- scan(file = paste0(chr.sen.dir, "/", chr.sen.file), 
@@ -52,7 +52,7 @@ for(ii in 1:length(num.comp.sen.rows)) {
     ## sensitivity of that parameter by the absolute log of the value of 
     ## that parameter." page 5-17 PEST Manual (absolute page 146 in pdf file)
     ## tmp.df.cur <- data.frame(tmp.df.cur, rel.sens = abs(log(tmp.df.cur[,3])) * tmp.df.cur[, 4])
-    tmp.df.cur <- data.frame(tmp.df.cur, rel.sens = tmp.df.cur[, 4]) / df.par.rng$rel
+    tmp.df.cur <- data.frame(tmp.df.cur, rel.sens = tmp.df.cur[, 4]/ df.par.rng$rel) 
     ## create rank column  
     tmp.df.cur <- data.frame(tmp.df.cur, obs.group.rank = -1)
     ## rank relative sensitivity for obs group
