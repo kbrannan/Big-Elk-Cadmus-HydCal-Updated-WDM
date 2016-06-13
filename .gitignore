@@ -17,3 +17,32 @@ vignettes/*.pdf
 
 # OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
 .httr-oauth
+
+# uncertainty analysis run files
+pest-hspf-files/upd-uncert/
+
+# orginal hydrologic calibration files, these are archived elsewhere
+org-calib/
+
+# no zip-files
+*.zip
+
+# windows msic files
+Thumbs.db
+
+# some pest run files
+*.cnd
+*.drf
+*.jac
+*.jco
+*.jst
+*.mtt
+*.rei
+*.rst
+*.sen
+*.seo
+
+# some hspf run files
+*.ech
+*.log
+*.FIL
