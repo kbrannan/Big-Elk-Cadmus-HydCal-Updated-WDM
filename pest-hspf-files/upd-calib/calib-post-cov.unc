@@ -1,0 +1,4 @@
+START COVARIANCE_MATRIX
+  file M:\Models\Bacteria\HSPF\Big-Elk-Cadmus-HydCal-Updated-WDM\pest-hspf-files\upd-calib\calib-post-cov.mat
+  variance_multiplier 1.0
+END COVARIANCE_MATRIX

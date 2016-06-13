@@ -1,5 +1,0 @@
-00:00:00.062	Main:StartToFile 2016-03-29 05:02:09
-00:00:00.062	Main:Begin Logging
-00:00:00.062	Main:Pre:  F90_ACTSCN (-1, 0, 100, 0, bigelk, 6)
-00:00:00.140	Main:Post: F90_ACTSCN (-1, 0, 100, 0, bigelk, 6)
-00:00:00.140	Main:Pre:  F90_SIMSCN (0)
