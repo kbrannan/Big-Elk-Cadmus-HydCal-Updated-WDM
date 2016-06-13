@@ -13,4 +13,4 @@ echo file %%i completed
 )
 echo start replace-philim R-script
 pause
-"C:\Program Files\R\R-3.1.3\bin\x64\Rscript.exe" --vanilla c:\temp\uncert-upd\replace-phimlim.R
+"C:\Program Files\R\R-3.1.3\bin\x64\Rscript.exe" --vanilla c:\temp\upd-uncert\replace-phimlim.R
