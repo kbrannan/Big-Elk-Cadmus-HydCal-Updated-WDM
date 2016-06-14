@@ -1,0 +1,28 @@
+
+ Processing information contained in TSPROC input file M:\Models\Bacteria\HSPF\Big-Elk-Cadmus-HydCal-Updated-WDM\ObsData\get-flow.ins....
+
+ Processing SETTINGS block....
+    CONTEXT get_obs_flow
+    DATE_FORMAT mm/dd/yyyy
+    Processing of SETTINGS block complete.
+
+ Processing GET_SERIES_WDM block....
+    CONTEXT all
+    FILE m:\models\bacteria\hspf\BigElkC\bigelk_out.wdm
+    DSN 301
+    NEW_SERIES_NAME oflow
+    DEF_TIME 00:00:00
+    Reading WDM file m:\models\bacteria\hspf\BigElkC\bigelk_out.wdm....
+    Series "oflow" successfully imported from file m:\models\bacteria\hspf\BigElkC\bigelk_out.wdm
+
+ Processing LIST_OUTPUT block....
+    CONTEXT all
+    FILE M:\Models\Bacteria\HSPF\Big-Elk-Cadmus-HydCal-Updated-WDM\ObsData\obs-flow.txt
+    SERIES_NAME oflow
+    SERIES_FORMAT short
+    Writing output file M:\Models\Bacteria\HSPF\Big-Elk-Cadmus-HydCal-Updated-WDM\ObsData\obs-flow.txt....
+    File M:\Models\Bacteria\HSPF\Big-Elk-Cadmus-HydCal-Updated-WDM\ObsData\obs-flow.txt written ok.
+
+ End of TSPROC input file 
+   M:\Models\Bacteria\HSPF\Big-Elk-Cadmus-HydCal-Updated-WDM\ObsData\get-flow.
+   ins - no more blocks to process.

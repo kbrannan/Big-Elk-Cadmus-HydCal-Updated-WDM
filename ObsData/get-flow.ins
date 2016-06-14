@@ -1,0 +1,21 @@
+
+START SETTINGS
+ CONTEXT get_obs_flow
+ DATE_FORMAT mm/dd/yyyy
+END SETTINGS
+
+
+START GET_SERIES_WDM
+ CONTEXT all
+ FILE "m:\models\bacteria\hspf\BigElkC\bigelk_out.wdm"
+ DSN 301
+ NEW_SERIES_NAME oflow
+ DEF_TIME 00:00:00
+END GET_SERIES_WDM
+
+START LIST_OUTPUT
+ CONTEXT all
+ FILE M:\Models\Bacteria\HSPF\Big-Elk-Cadmus-HydCal-Updated-WDM\ObsData\obs-flow.txt
+ SERIES_NAME oflow
+ SERIES_FORMAT short
+END LIST_OUTPUT
