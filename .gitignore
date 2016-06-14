@@ -24,6 +24,9 @@ pest-hspf-files/upd-uncert/
 # orginal hydrologic calibration files, these are archived elsewhere
 org-calib/
 
+# surface water utilities executables downloaded from pest home page
+swutils/
+
 # no zip-files
 *.zip
 
