@@ -1,0 +1,65 @@
+RUN
+ 
+GLOBAL
+  Big Elk Creek Hydrology
+  START       1995/10/01 00:00  END    2014/05/30 24:00
+  RUN INTERP OUTPT LEVELS    3    0
+  RESUME     0 RUN     1                          UNITS    1
+END GLOBAL
+ 
+FILES
+<FILE>  <UN#>***<----FILE NAME------------------------------------------------->
+MESSU      24   get-obs.ech
+           91   get-obs.out
+WDM1       25   bigelk_out.wdm
+           50   obsflow.out
+END FILES
+ 
+OPN SEQUENCE
+    INGRP              INDELT 01:00
+      PLTGEN     001
+    END INGRP
+END OPN SEQUENCE
+
+PLTGEN
+  PLOTINFO
+  <-range><fil><npt><nmn><lab><pyr><piv><typ> ***
+    # -  # FILE  NPT  NMN LABL  PYR PIVL TYPE ***
+  001        50    0    1    0    9   24    1
+  END PLOTINFO
+  
+  GEN-LABELS
+  <-range><--------------- title ----------------> ***
+    # -  #  General Title                          ***
+    1       Obs flow at outlet Big Elk Creek
+  END GEN-LABELS
+  
+  SCALING
+  <-range><--ymin--><--ymax--><--ivlin-><-thresh-> ***
+    # -  #      YMIN      YMAX     IVLIN    THRESH ***
+    1                    1E+12        30   -1.0E32    
+  END SCALING
+  
+  CURV-DATA
+  <-range>    <-----label----><lin><int><col> <tr> ***
+              Curve label      Line Intg  Col Tran ***
+    # -  #                     type  eqv code code ***
+    1         Obs daily flow      0    0    1 SUM
+  END CURV-DATA
+END PLTGEN
+
+EXT SOURCES
+<-Volume-> <Member> SsysSgap<--Mult-->Tran <-Target vols> <-Grp> <-Member-> ***
+<Name>   x <Name> x tem strg<-factor->strg <Name>   x   x        <Name> x x ***
+WDM1   301 FLOW     ENGL              SAME PLTGEN 001     INPUT  MEAN 
+END EXT SOURCES
+
+
+***NETWORK
+***<svol><o#> <sgrp> <smem><m#><-mfact--><tr> <tvol>< range> <tgrp> <tmem><m#> ***
+***<-Volume-> <-Grp> <-Member-><--Mult-->Tran <-Target vols> <-Grp> <-Member-> ***
+***<Name>   #        <Name> # #<-factor->strg <Name>   #   #        <Name> # # ***
+***RCHRES 009 HYDR   ROVOL     1.2335E+07     PLTGEN   2     INPUT  MEAN   2
+***END NETWORK
+ 
+END RUN
