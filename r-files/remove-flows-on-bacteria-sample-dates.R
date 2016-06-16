@@ -7,6 +7,9 @@ source(file = "//deqhq1/tmdl/TMDL_WR/MidCoast/Models/Bacteria/HSPF/HydroCal20150
 ## primary path
 chr.dir.prime <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM"
 
+## file name of big elk flow data with the flows for dates of bacteria samples removed
+chr.file.flow.est.removed <- "obs-flow-removed.RData"
+
 ## bacteria data path
 chr.dir.bac.obs <- paste0(chr.dir.prime, "/ObsData")
 
@@ -26,3 +29,10 @@ chr.dates.bac.unique <- chr.dates.bac.unique[order(chr.dates.bac.unique)]
 ## find rows in flow data.frame for dates of bacteria samples
 lng.bac.flow.rows <- grep(pattern = paste0(chr.dates.bac.unique, collapse = "|"),
                           strftime(df.flow.est$date, format = "%Y-%m-%d"))
+
+## remove flows for dates of bacteria samples
+df.flow.est.reduced <- df.flow.est[-1 * lng.bac.flow.rows, ]
+
+## save a copy of the big elk flow data with the flows for dates of bacteria samples removed
+save(df.flow.est.reduced, file = paste0(chr.dir.bac.obs, "/", chr.file.flow.est.removed))
+
