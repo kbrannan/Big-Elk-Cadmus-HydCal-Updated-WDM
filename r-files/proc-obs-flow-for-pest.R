@@ -23,22 +23,75 @@ da.be <- 88.8
 ## baseflow seperation using USGS-HySep R version in DVstats
 ## need continuous time-series to use hysep, so need to break flow
 ## data into multiple continuous time-series
-df.tmp.bnds <- data.frame(start = lng.bac.flow.rows + 1,
-                      end = lng.bac.flow.rows - 1)
-df.bnds <- data.frame(start = c(min(1,df.tmp.bnds$start),df.tmp.bnds$start),
-                      end = c(df.tmp.bnds$end,max(df.bnds$end, length(df.flow.est$mean_daily_flow_cfs))))
-ii <- 5
-tmp.seq <- seq.int(from = df.bnds$start[1], to = df.bnds$end[1])
-df.hysep88.8 <- hysep(Flow = df.flow.est.reduced$mean_daily_flow_cfs[tmp.seq], 
+
+df.chk <- data.frame(fwd = rep(-1000, length(lng.bac.flow.rows)),
+                      bck = -1000)
+df.chk$fwd[1] <- lng.bac.flow.rows[2] - lng.bac.flow.rows[1]
+for(ii in 2:(length(lng.bac.flow.rows) - 1)) {
+  df.chk$fwd[ii] <- lng.bac.flow.rows[ii + 1] - lng.bac.flow.rows[ii]
+  df.chk$bck[ii] <- lng.bac.flow.rows[ii] - lng.bac.flow.rows[ii - 1]
+}
+df.chk$bck[length(lng.bac.flow.rows)] <- 
+  lng.bac.flow.rows[length(lng.bac.flow.rows)] - 
+  lng.bac.flow.rows[length(lng.bac.flow.rows) - 1]
+df.chk <- cbind(df.chk, chk = 0)
+
+df.chk$chk[df.chk$fwd > 1 & df.chk$bck > 1] <- 1
+if(df.chk$fwd[1] > 1) df.chk$chk[1] <- 1
+if(df.chk$bck[length(lng.bac.flow.rows)] > 1) df.chk$chk[length(lng.bac.flow.rows)] <- 1
+
+
+lng.chk[length(lng.chk)] <- lng.bac.flow.rows[length(lng.chk)] - 
+  lng.bac.flow.rows[length(lng.chk) - 1]
+rm(ii)
+
+df.bnds <- data.frame(start = rep(-1, length(lng.bac.flow.rows)),
+                      end = -1, lng.bac.flow.rows, lng.chk,
+                      sec.chk = -1000)
+if(lng.chk[1] > 1) {
+  df.bnds$start[1] <- 1
+  df.bnds$end[1] <- lng.bac.flow.rows[1] - 1
+}
+for(ii in 2:(length(lng.bac.flow.rows) - 1)) {
+  if(lng.chk[ii] > 1) {
+    df.bnds$start[ii] <- lng.bac.flow.rows[ii - 1] + 1
+    df.bnds$end[ii] <- lng.bac.flow.rows[ii] - 1
+  }
+}
+
+if(lng.chk[length(lng.chk)] > 1) {
+  df.bnds$start[length(lng.bac.flow.rows)] <- lng.bac.flow.rows[length(lng.bac.flow.rows) - 1] - 1
+  df.bnds$end[length(lng.bac.flow.rows)] <- length(df.flow.est$date)
+}
+
+df.bnds$sec.chk <- df.bnds$end - df.bnds$start
+
+
+df.bnds.chk <- df.bnds[lng.chk > 1, ]
+
+df.bnds.chk <- cbind(df.bnds.chk, bfi = -1)
+
+for(ii in 1:length(df.bnds.chk$bfi)) {
+  tmp.seq <- seq.int(from = df.bnds.chk$start[ii], to = df.bnds.chk$end[ii])
+  tmp.hysep88.8 <- hysep(Flow = df.flow.est$mean_daily_flow_cfs[tmp.seq], 
+                         Dates = as.Date(df.flow.est$date[tmp.seq]), da = da.be)
+  df.bnds.chk$bfi[ii] <- sum(tmp.hysep88.8$BaseQ) / sum(tmp.hysep88.8$Flow)
+  rm(tmp.seq, tmp.hysep88.8)
+}
+tmp.seq <- seq.int(from = df.bnds$start[ii], to = df.bnds$end[1])
+tmp.hysep88.8 <- hysep(Flow = df.flow.est.reduced$mean_daily_flow_cfs[tmp.seq], 
                       Dates = as.Date(df.flow.est.reduced$date[tmp.seq]), da = da.be)
+df.bnds$bfi[ii] <- sum(tmp.hysep88.8$BaseQ) / sum(tmp.hysep88.8$Flow)
 
-
+str(df.hysep88.8)
 
 df.hysep88.8 <- hysep(Flow = df.flow.est.reduced$mean_daily_flow_cfs, 
                       Dates = as.Date(df.flow.est.reduced$date), da = da.be)
 
 ## caclulate baseflow in the same way as calculated from the observed data
-mbaseind <- sum(df.hysep88.8$BaseQ)/sum(df.hysep88.8$Flow)
+mbaseind <- median(df.bnds$bfi)
+
+boxplot((df.bnds$bfi))
 
 ## clean up
 rm(df.hysep88.8)
