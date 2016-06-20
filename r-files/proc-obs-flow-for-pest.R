@@ -24,65 +24,85 @@ da.be <- 88.8
 ## need continuous time-series to use hysep, so need to break flow
 ## data into multiple continuous time-series
 
+## setup data.frame to check how many days in the flow series to the previous 
+## bacteria sample date (bck) and to the next (fwd) for each bacteria sample date
+## and a variable to indicate that sample date has more than 1 day of flow series
+## bewteen previous (bck) or next (fwd), chk == 1 is yes and chk == 0 in no
 df.chk <- data.frame(fwd = rep(-1000, length(lng.bac.flow.rows)),
-                      bck = -1000)
+                      bck = -1000, chk = 0)
+## first sample date only has forward
 df.chk$fwd[1] <- lng.bac.flow.rows[1] - 1
+## loop to do the remeaining sample dates except the last
 for(ii in 2:(length(lng.bac.flow.rows) - 1)) {
   df.chk$fwd[ii] <- lng.bac.flow.rows[ii + 1] - lng.bac.flow.rows[ii]
   df.chk$bck[ii] <- lng.bac.flow.rows[ii] - lng.bac.flow.rows[ii - 1]
 }
+## clean up
 rm(ii)
+## last sample date only has a backward
 df.chk$bck[length(lng.bac.flow.rows)] <- length(df.flow.est$date) -
   lng.bac.flow.rows[length(lng.bac.flow.rows)]
-df.chk <- cbind(df.chk, chk = 0)
+
+## identify sample dates that have more than one day of flow series
 df.chk$chk[df.chk$fwd > 1 & df.chk$bck > 1] <- 1
+## first only has fwd
 if(df.chk$fwd[1] > 1) df.chk$chk[1] <- 1
+## last only has bwd
 if(df.chk$bck[length(lng.bac.flow.rows)] > 1) df.chk$chk[length(lng.bac.flow.rows)] <- 1
 
-
-
-
+## setup data.frame for the bounds of the flow series segments used to estimate
+## baseflow index
 df.bnds <- cbind(start = -1,
                  end = -1, 
                  bac.rows = lng.bac.flow.rows,
                  df.chk,
                  len = -1,
                  bfi = -1)
+## first start = 1
 if(df.bnds$chk[1] == 1) {
   df.bnds$start[1] <- 1
   df.bnds$end[1] <- lng.bac.flow.rows[1] - 1
 }
+## do remaining sample dates that have chk == 1
 for(ii in 2:(length(df.bnds$bac.rows) - 1)) {
   if(df.bnds$chk[ii] == 1) {
     df.bnds$start[ii] <- df.bnds$bac.rows[ii - 1] + 1
     df.bnds$end[ii] <- df.bnds$bac.rows[ii] - 1
   }
 }
-
+## last end is the length of the flow series
 if(df.bnds$chk[length(df.bnds$chk)] == 1) {
   df.bnds$start[length(lng.bac.flow.rows)] <- lng.bac.flow.rows[length(lng.bac.flow.rows)] + 1
   df.bnds$end[length(lng.bac.flow.rows)] <- length(df.flow.est$date)
 }
 
+## get the length of the segements
 df.bnds$len <- df.bnds$end - df.bnds$start
 
+## calculate baseflow idex for each segment
 for(ii in 1:length(df.bnds$bfi)) {
   if(df.bnds$chk[ii] == 1) {
     tmp.seq <- seq.int(from = df.bnds$start[ii], to = df.bnds$end[ii])
+    ## use try function becuase can get error from hysep if there is only
+    ## one minima (i think this means a constant slope)
     tmp.hysep88.8 <- try(hysep(Flow = df.flow.est$mean_daily_flow_cfs[tmp.seq], 
                                Dates = as.Date(df.flow.est$date[tmp.seq]), da = da.be,
                                select = "sliding"), silent = TRUE)
     if(class(tmp.hysep88.8)[1] == "baseflow") {
+      ## only calculate baseflow index for error free hysep
+      ## can use the sums of the baseflow and flow even though the units are cfs
+      ## the conversion coefficients cancel out in the ratio
       df.bnds$bfi[ii] <- sum(tmp.hysep88.8$BaseQ) / sum(tmp.hysep88.8$Flow)
     }
+    ## clean up
     rm(tmp.seq, tmp.hysep88.8)
   }
 }
-
+## get rows where baseflow not calculated 
 lng.bfi <- grep("[^-1]", df.bnds$bfi)
 
-## caclulate baseflow in the same way as calculated from the observed data
-
+## calculate baseflow in the same way as calculated from the observed data
+## as a wieght average. The weight is the length of the segment
 mbaseind <- sum(df.bnds$len[lng.bfi] * df.bnds$bfi[lng.bfi]) / sum(df.bnds$len[lng.bfi])
 
 ## clean up
