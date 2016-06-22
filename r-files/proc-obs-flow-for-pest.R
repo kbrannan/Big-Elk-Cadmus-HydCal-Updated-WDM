@@ -14,6 +14,9 @@ chr.dir.bac.obs <- paste0(chr.dir.prime, "/ObsData")
 ## load obs flow data
 load(file = paste0(chr.dir.bac.obs, "/", chr.file.flow.est.removed))
 
+## storm dates path
+chr.dir.stm.dates <- "M:/Models/Bacteria/HSPF/HydroCal201506/R_projs/Select_Storm_HydCal"
+
 
 ## drainage area in sqr mi for Big Elk Creek at outlet
 da.be <- 88.8
@@ -110,25 +113,25 @@ rm(ii, df.chk,lng.bfi, lng.bac.flow.rows)
 
 ## convert stream flow from cu ft / sec to ac-ft / day for use in volumes
 ## (1 cu ft / sec) * (86400 sec / day) * (1 ac-ft / 43559.9 cu ft)
-df.mod <- cbind(df.mod, 
-                flow.ac.ft =  86400 * (1 / 43559.9) * df.mod$Rch18.flow)
+df.flow.est.reduced <- cbind(df.flow.est.reduced, 
+                flow.ac.ft =  86400 * (1 / 43559.9) * df.flow.est.reduced$mean_daily_flow_cfs)
 
 ## mvol_ann - annual volumes in ac-ft
 ## create factor for year
-df.mod <- cbind(df.mod, 
+df.flow.est.reduced <- cbind(df.flow.est.reduced, 
                 fac.ann  = as.factor(
-                  strftime(df.mod$tmp.date, format = "%Y")))
+                  strftime(df.flow.est.reduced$date, format = "%Y")))
 mvol_ann <- as.numeric(
-  summaryBy(flow.ac.ft ~ fac.ann, data = df.mod, FUN = sum)[ ,2])
+  summaryBy(flow.ac.ft ~ fac.ann, data = df.flow.est.reduced, FUN = sum)[ ,2])
 
 ## create factor for month used in mvol_smr and mvol_wtr calculations
-df.mod <- cbind(df.mod, 
+df.flow.est.reduced <- cbind(df.flow.est.reduced, 
                 fac.mon  = as.factor(
-                  strftime(df.mod$tmp.date, format = "%b")))
+                  strftime(df.flow.est.reduced$date, format = "%b")))
 
 ## create factor for month used in mvol_smr and mvol_wtr calculations
 
-df.tmp <- data.frame(mon=as.character(df.mod$fac.mon), season = "none", 
+df.tmp <- data.frame(mon=as.character(df.flow.est.reduced$fac.mon), season = "none", 
                      stringsAsFactors = FALSE)
 
 ## summer season, summer is Jun, Jul and Aug
@@ -142,12 +145,12 @@ df.tmp$season[lng.smr] <- "summer"
 df.tmp$season[lng.wtr] <- "winter"
 
 ## add season as factor to df.mod 
-df.mod <- data.frame(df.mod, fac.season = as.factor(df.tmp$season))
+df.flow.est.reduced <- data.frame(df.flow.est.reduced, fac.season = as.factor(df.tmp$season))
 
 ## clean up
 rm(df.tmp, lng.smr, lng.wtr)
 
-df.vol.seasons <- summaryBy(flow.ac.ft ~ fac.ann + fac.season , data = df.mod, FUN = sum)
+df.vol.seasons <- summaryBy(flow.ac.ft ~ fac.ann + fac.season , data = df.flow.est.reduced, FUN = sum)
 
 
 ## mvol_smr - summer volumes in ac-ft
@@ -167,8 +170,16 @@ df.strm.dates.raw <- read.delim(file = paste0(chr.dir.stm.dates, "/dates_stm.dat
 ## convert to POSIXct dates
 df.strm.dates <- data.frame(apply(df.strm.dates.raw, MARGIN = 2, strptime, 
                                   format = "%m/%d/%Y"))
-## set names
 names(df.strm.dates) <- c("begin", "end")
+
+## get dates on bacteria samples
+df.bac.dates <- data.frame(date = df.flow.est$date[df.bnds$bac.rows],
+                           in.storm = 0)
+
+## check if bacteria samples are within storms
+df.bac.dates$in.storm <- df.bac.dates$date %in% unlist(Map(`:`, df.strm.dates$begin , df.strm.dates$end))
+
+
 
 ## clean up
 rm(df.strm.dates.raw)
