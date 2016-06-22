@@ -173,11 +173,23 @@ df.strm.dates <- data.frame(apply(df.strm.dates.raw, MARGIN = 2, strptime,
 names(df.strm.dates) <- c("begin", "end")
 
 ## get dates on bacteria samples
-df.bac.dates <- data.frame(date = df.flow.est$date[df.bnds$bac.rows],
-                           in.storm = 0)
+df.bac.dates <- data.frame(date = df.flow.est$date[df.bnds$bac.rows])
 
 ## check if bacteria samples are within storms
-df.bac.dates$in.storm <- df.bac.dates$date %in% unlist(Map(`:`, df.strm.dates$begin , df.strm.dates$end))
+tmp.strm.dates <- cbind(df.strm.dates[, 1:2], keep = TRUE, bac.date = as.POSIXct("1967-07-02 00:00"))
+## brute force not elegant
+for(ii in 1:length(tmp.strm.dates$keep)) {
+  for(jj in 1:length(df.bac.dates$date)) {
+    if(as.numeric(df.bac.dates$date[jj]) >=  as.numeric(df.strm.dates$begin[ii]) & 
+       as.numeric(df.bac.dates$date[jj]) <= as.numeric(df.strm.dates$end[ii])) {
+      tmp.strm.dates$keep[ii] <- FALSE
+      tmp.strm.dates$bac.date[ii] <- as.Date(df.bac.dates$date[jj])
+      break
+    }
+  }
+}
+
+df.strm.dates.reduced <- tmp.strm.dates[tmp.strm.dates$keep == TRUE, c("begin", "end")]
 
 
 
