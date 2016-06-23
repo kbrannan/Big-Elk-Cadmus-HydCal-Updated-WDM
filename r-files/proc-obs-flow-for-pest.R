@@ -194,17 +194,17 @@ df.strm.dates.reduced <- tmp.strm.dates[tmp.strm.dates$keep == TRUE, c("begin", 
 
 
 ## clean up
-rm(df.strm.dates.raw)
+rm(df.strm.dates.raw, ii, jj, tmp.strm.dates)
 
 ## storm durations in days
-df.strm.dur <- as.numeric(df.strm.dates$end - df.strm.dates$begin)
+df.strm.dur <- floor(as.numeric(df.strm.dates.reduced$end - df.strm.dates.reduced$begin))
 
 ## mpeak
-mpeak <- rep(-1, length(df.strm.dates$begin))
+mpeak <- rep(-1, length(df.strm.dates.reduced$begin))
 
 for(ii in 1:length(mpeak)) {
-  mpeak[ii] <- max(df.mod[df.mod$tmp.date >= df.strm.dates$begin[ii] & 
-               df.mod$tmp.date <= df.strm.dates$end[ii], ]$Rch18.flow)
+  mpeak[ii] <- max(df.flow.est.reduced[df.flow.est.reduced$date >= df.strm.dates.reduced$begin[ii] & 
+               df.flow.est.reduced$date <= df.strm.dates.reduced$end[ii], ]$mean_daily_flow_cfs)
 }
 rm(ii)
 
@@ -213,9 +213,8 @@ rm(ii)
 mvol_stm <- rep(-1, length(df.strm.dates$begin))
 
 for(ii in 1:length(mvol_stm)) {
-  mvol_stm[ii] <- sum(df.mod[df.mod$tmp.date >= df.strm.dates$begin[ii] & 
-                            df.mod$tmp.date <= 
-                              df.strm.dates$end[ii], ]$flow) * 
+  mvol_stm[ii] <- sum(df.flow.est.reduced[df.flow.est.reduced$date >= df.strm.dates.reduced$begin[ii] & 
+                      df.flow.est.reduced$date <= df.strm.dates.reduced$end[ii], ]$mean_daily_flow_cfs) * 
     (df.strm.dur[ii] * 86400)
 }
 ## mtime - % exceedance for flow, using 0.01%, 1%, 5%, 25%, 50%, 75%, 95%, 99%
@@ -226,7 +225,7 @@ for(ii in 1:length(mvol_stm)) {
 ## percents used
 tmp.per <- c(0.0001, 0.01, 0.05, 0.25, 0.50, 0.75, 0.95, 0.99)
 
-mtime <- as.numeric(quantile(x = df.mod$Rch18.flow, probs = tmp.per))
+mtime <- as.numeric(quantile(x = df.flow.est.reduced$mean_daily_flow_cfs, probs = tmp.per))
 
 ## clean up
 rm(tmp.per)
