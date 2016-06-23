@@ -2,6 +2,19 @@
 library(DVstats, quietly = TRUE) # USGS-HySep R version in DVstats
 library(doBy, quietly = TRUE) # need doBy package to sums for annual, summer and winter
 
+## get simulation period
+chr.dir.uci <- "m:/models/bacteria/hspf/bigelkhydrocal201601/hspf-files"
+chr.uci <- scan(paste0(chr.dir.uci,"/bigelk.uci"), sep = "\n", 
+                what = "character", quiet = TRUE)
+dt.sim.period <- as.POSIXct(
+  sapply(
+    strsplit(
+      gsub(" {1,}", ",", 
+           gsub("(^ {1,})|( {1,}$)", "", 
+                gsub("[^0-9/ ]|(00\\:00)|(24\\:00)", "",
+                     chr.uci[grep("START", chr.uci)]))),
+      split = ","), cbind))
+
 ## primary path
 chr.dir.prime <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM"
 
@@ -13,6 +26,23 @@ chr.dir.bac.obs <- paste0(chr.dir.prime, "/ObsData")
 
 ## load obs flow data
 load(file = paste0(chr.dir.bac.obs, "/", chr.file.flow.est.removed))
+
+## sub-set flow data for simulation period
+df.flow.est.sim.period <- data.frame(date = df.flow.est$date, flow = df.flow.est$mean_daily_flow_cfs)
+
+df.flow.est$date[1] < dt.sim.period[1]
+
+junk <- df.flow.est.sim.period[df.flow.est.sim.period$date >= dt.sim.period[1] &
+                                 df.flow.est.sim.period$date <= dt.sim.period[2], ]
+
+range(junk$date)
+
+df.flow.est.reduced.sim.period <- df.flow.est.reduced[dt.sim.period[1] >= df.flow.est.reduced$date |
+                             dt.sim.period[2] <= df.flow.est.reduced$date , ]
+
+range(df.flow.est$date)
+
+range(df.flow.est.reduced$date)
 
 ## storm dates path
 chr.dir.stm.dates <- "M:/Models/Bacteria/HSPF/HydroCal201506/R_projs/Select_Storm_HydCal"
@@ -243,6 +273,10 @@ str.obs.grp.names <-
                                str.control[tmp.blk.hd])] + 1):
                 (tmp.blk.hd[grep("[Oo]bs.*[Gg]roups", 
                                  str.control[tmp.blk.hd]) + 1] - 1)]
+
+
+
+
 
 lng.0.pd <- nchar(as.character(max(sapply(mget(str.obs.grp.names), length))))
 
