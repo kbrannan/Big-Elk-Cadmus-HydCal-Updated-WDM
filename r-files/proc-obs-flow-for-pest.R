@@ -29,24 +29,11 @@ load(file = paste0(chr.dir.bac.obs, "/", chr.file.flow.est.removed))
 
 ## sub-set flow data for simulation period
 df.flow.est.sim.period <- data.frame(date = df.flow.est$date, flow = df.flow.est$mean_daily_flow_cfs)
-
-df.flow.est$date[1] < dt.sim.period[1]
-
-junk <- df.flow.est.sim.period[df.flow.est.sim.period$date >= dt.sim.period[1] &
+df.flow.est.sim.period <- df.flow.est.sim.period[df.flow.est.sim.period$date >= dt.sim.period[1] &
                                  df.flow.est.sim.period$date <= dt.sim.period[2], ]
-
-range(junk$date)
-
-df.flow.est.reduced.sim.period <- df.flow.est.reduced[dt.sim.period[1] >= df.flow.est.reduced$date |
-                             dt.sim.period[2] <= df.flow.est.reduced$date , ]
-
-range(df.flow.est$date)
-
-range(df.flow.est.reduced$date)
 
 ## storm dates path
 chr.dir.stm.dates <- "M:/Models/Bacteria/HSPF/HydroCal201506/R_projs/Select_Storm_HydCal"
-
 
 ## drainage area in sqr mi for Big Elk Creek at outlet
 da.be <- 88.8
@@ -108,11 +95,12 @@ if(df.bnds$chk[length(df.bnds$chk)] == 1) {
   df.bnds$start[length(lng.bac.flow.rows)] <- lng.bac.flow.rows[length(lng.bac.flow.rows)] + 1
   df.bnds$end[length(lng.bac.flow.rows)] <- length(df.flow.est$date)
 }
-
 ## get the length of the segements
 df.bnds$len <- df.bnds$end - df.bnds$start
 
 ## calculate baseflow idex for each segment
+tmp.wn <- options("warn")
+options(warn = -1)
 for(ii in 1:length(df.bnds$bfi)) {
   if(df.bnds$chk[ii] == 1) {
     tmp.seq <- seq.int(from = df.bnds$start[ii], to = df.bnds$end[ii])
@@ -131,7 +119,9 @@ for(ii in 1:length(df.bnds$bfi)) {
     rm(tmp.seq, tmp.hysep88.8)
   }
 }
-## get rows where baseflow not calculated 
+options(warn = tmp.wn)
+rm(tmp.wn)
+## get rows where baseflow calculated 
 lng.bfi <- grep("[^-1]", df.bnds$bfi)
 
 ## calculate baseflow in the same way as calculated from the observed data
@@ -160,7 +150,6 @@ df.flow.est.reduced <- cbind(df.flow.est.reduced,
                   strftime(df.flow.est.reduced$date, format = "%b")))
 
 ## create factor for month used in mvol_smr and mvol_wtr calculations
-
 df.tmp <- data.frame(mon=as.character(df.flow.est.reduced$fac.mon), season = "none", 
                      stringsAsFactors = FALSE)
 
@@ -273,62 +262,14 @@ str.obs.grp.names <-
                                str.control[tmp.blk.hd])] + 1):
                 (tmp.blk.hd[grep("[Oo]bs.*[Gg]roups", 
                                  str.control[tmp.blk.hd]) + 1] - 1)]
+## get mlog
+mlog <- log10(df.flow.est.sim.period$flow + 1E-04)
+
+## get mflow
+mflow <- df.flow.est.sim.period$flow
 
 
+str.obs.grp.names[order(str.obs.grp.names)] == ls(pattern = "^m[a-z]")
 
-
-
-lng.0.pd <- nchar(as.character(max(sapply(mget(str.obs.grp.names), length))))
-
-lng.0.pd <- nchar(as.character(sapply(mget(str.obs.grp.names), length)))
-
-to.df.cur.data <- function(x) {
-  n.pad <- nchar(as.character(length(get(x))))
-  y <- data.frame(
-    name = paste0(x, "_", 
-                  sprintf(fmt = paste0("%0", n.pad, "d"), 
-                          1:length(get(x)))), 
-    val = get(x), stringsAsFactors = FALSE)
-  return(y)
-} 
-
-tmp.blk.data <- do.call(rbind, lapply(str.obs.grp.names, FUN = to.df.cur.data))
-
-
-##
-## write output to filed format text file
-
-## get length of longest variable name and add 5
-#lng.name <- max(nchar(attr(tmp.blk.data, "names"))) + 5
-lng.name <- max(nchar(tmp.blk.data$name)) + 5
-
-
-
-## write output to chracater vector. the format is 2s, variable name left 
-## justified and width 5 plus length of longest variable name and value as 
-## 1.5E+00. 
-## total width of variable name and value is length of longest variable name + 5
-## + 11 = length of longest variable name + 16
-chr.mod.output <- paste0(
-  sprintf(paste0("  %-", lng.name, "s"), tmp.blk.data$name), 
-  sprintf("%.5E", tmp.blk.data$val))
-
-write.table(data.frame(out=chr.mod.output), 
-            file = paste0(chr.dir.pst, "/model.out"), 
-            quote = FALSE, col.names = FALSE, row.names = FALSE,
-            sep = "\n")
-
-
-##
-## write model.ins file
-lng.var.val <- nchar(chr.mod.output[1])
-
-chr.mod.ins <- c("pif $", paste0(
-  sprintf("l1  [%s]",tmp.blk.data$name), lng.name, ":",lng.var.val + 1))
-
-write.table(data.frame(ins=chr.mod.ins), 
-            file = paste0(chr.dir.pst, "/model.ins"), 
-            quote = FALSE, col.names = FALSE, row.names = FALSE,
-            sep = "\n")
-
-
+## save obs data
+save(list = str.obs.grp.names, file = paste0(chr.dir.prime, "/ObsData/obs-group-data-flow-removed.RData"))
