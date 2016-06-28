@@ -42,7 +42,7 @@ for(ii in 1:length(chr.obs.grp)) {
   for(jj in 1:length(tmp.data)) {
     tmp.nme <- sprintf(paste0("%-",lng.max.nchar,"s"),sprintf(paste0(tmp.grp, paste0("_%0", lng.num.obs.dgt, "i")), jj))
     tmp.val <- sprintf("%8.4E", tmp.data[jj])
-    tmp.wtg <- sprintf("%8.4E", abs(1/tmp.data[jj]))
+    tmp.wtg <- sprintf("%8.4E", abs(1/tmp.data[jj])) ## initial weight set to inverse of value
     tmp.blk <- c(tmp.blk,
                  paste0(tmp.nme, chr.col.spc, tmp.val, chr.col.spc, tmp.wtg,
                         chr.col.spc, tmp.grp))
