@@ -99,7 +99,7 @@ if(df.bnds$chk[length(df.bnds$chk)] == 1) {
 df.bnds$len <- df.bnds$end - df.bnds$start
 
 ## calculate baseflow idex for each segment
-tmp.wn <- options("warn")
+tmp.wn <- options("warn")[[1]]
 options(warn = -1)
 for(ii in 1:length(df.bnds$bfi)) {
   if(df.bnds$chk[ii] == 1) {
@@ -205,12 +205,12 @@ for(ii in 1:length(tmp.strm.dates$keep)) {
       tmp.strm.dates$bac.date[ii] <- as.Date(df.bac.dates$date[jj])
       break
     }
+    else tmp.strm.dates$bac.date[ii] <- NA
   }
 }
 
-df.strm.dates.reduced <- tmp.strm.dates[tmp.strm.dates$keep == TRUE, c("begin", "end")]
-
-
+df.strm.dates.reduced <- data.frame(begin = tmp.strm.dates$begin[grep("TRUE",tmp.strm.dates$keep)],
+                                    end = tmp.strm.dates$end[grep("TRUE",tmp.strm.dates$keep)])
 
 ## clean up
 rm(df.strm.dates.raw, ii, jj, tmp.strm.dates)
@@ -229,7 +229,7 @@ rm(ii)
 
 ## mvol_stm in cu-ft for storm convert cu-ft/sec to cu-ft/day 
 ## using 1 day = 86400 s
-mvol_stm <- rep(-1, length(df.strm.dates$begin))
+mvol_stm <- rep(-1, length(df.strm.dates.reduced$begin))
 
 for(ii in 1:length(mvol_stm)) {
   mvol_stm[ii] <- sum(df.flow.est.reduced[df.flow.est.reduced$date >= df.strm.dates.reduced$begin[ii] & 
