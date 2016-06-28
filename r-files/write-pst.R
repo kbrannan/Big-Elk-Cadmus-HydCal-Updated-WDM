@@ -52,59 +52,39 @@ for(ii in 1:length(chr.obs.grp)) {
   chr.obs.blk <- c(chr.obs.blk, tmp.blk)
   rm(tmp.grp, tmp.data, tmp.blk)
 }
-chr.obs.blk <- as.data.frame(chr.obs.blk[-1])
-
-write.table(chr.obs.blk, file = paste0(chr.dir, "/junk.tab"),
-            row.names = FALSE, col.names = FALSE, quote = FALSE)
+## get rid of first row becuase it is empty
+chr.obs.blk <- chr.obs.blk[-1]
 
 # get pest control file
 chr.dir.pst <- "m:/models/bacteria/hspf/bigelkhydrocal201601/pest-files"
-str.control <- scan(paste0(chr.dir.pst,"/control.pst"), sep = "\n", 
+chr.control <- scan(paste0(chr.dir.pst,"/control.pst"), sep = "\n", 
                     what = "character", quiet = TRUE)
-tmp.blk.hd <- grep("\\*", str.control)
-str.obs.grp.names <- 
-  str.control[(tmp.blk.hd[grep("[Oo]bs.*[Gg]roups", 
-                               str.control[tmp.blk.hd])] + 1):
+tmp.blk.hd <- grep("\\*", chr.control)
+chr.obs.grp.names <- 
+  chr.control[(tmp.blk.hd[grep("[Oo]bs.*[Gg]roups", 
+                               chr.control[tmp.blk.hd])] + 1):
                 (tmp.blk.hd[grep("[Oo]bs.*[Gg]roups", 
-                                 str.control[tmp.blk.hd]) + 1] - 1)]
+                                 chr.control[tmp.blk.hd]) + 1] - 1)]
+## copy control file for updating
+chr.control.new <- chr.control
 
-
-
-
-
-
-## combine the dfs to form the block of obs 
-lng.og <- grep("\\* observation groups", str.control) + 1
-lng.og.e <- lng.og + grep("\\*", str.control[lng.og:length(str.control)])[1] - 2
-chr.df.names <- paste0("df.",str.control[lng.og:lng.og.e])
-## combine blocks
-df.obs.block <- do.call(rbind, mget(chr.df.names))
-
-grep("mbaseind_", str.control, value = TRUE)
-
-grep("mbaseind_", df.obs.block$line, value = TRUE)
+## replace the number of obs and number of obs groups
+tmp.ln.4 <- strsplit(gsub("( ){1,}", ",",gsub("^( ){1,}","", chr.control.new[4])), split = ",")[[1]]
+tmp.ln.4[2] <- as.character(lng.num.obs)
+tmp.ln.4[5] <- as.character(lng.num.obs.grp)
+chr.control.new[4] <- paste0(
+  sprintf(paste0("%", max(nchar(tmp.ln.4)) + 4, "s"), tmp.ln.4), collapse = "")
 
 ## insert new block of observations into the control
-lng.obs.st <- grep("\\* observation data" ,str.control)
+lng.obs.st <- grep("\\* observation data" ,chr.control.new)
 lng.obs.ed <- lng.obs.st + min(grep("\\* " , 
-                       str.control[(lng.obs.st + 1):length(str.control)]))
-str.control.new <- c(str.control[1:lng.obs.st], 
-                          paste0(df.obs.block[ ,1]),
-                          str.control[lng.obs.ed:length(str.control)])
+                       chr.control.new[(lng.obs.st + 1):length(chr.control.new)]))
+chr.control.new <- c(chr.control.new[1:lng.obs.st], 
+                     chr.obs.blk, 
+                     chr.control.new[lng.obs.ed:length(chr.control)])
 
-## update the number of observation in control
-## get number of obs
-lng.n.obs <- length(df.obs.block$line)
-
-## set number of observations
-chr.ln <- str.control.new[4]
-
-# substitute the new number of observations
-chr.ln.new <- gsub("[0-9]{4,}",as.character(lng.n.obs), chr.ln)
-
-## put new line in control file
-str.control.new[4] <- chr.ln.new
+## update obs group block
 
 ## write updated control file
-write.table(str.control.new, file = paste0(chr.dir,"/new.pst"), 
+write.table(chr.control.new, file = paste0(chr.dir,"/new.pst"), 
             row.names = FALSE, col.names = FALSE, quote = FALSE)
