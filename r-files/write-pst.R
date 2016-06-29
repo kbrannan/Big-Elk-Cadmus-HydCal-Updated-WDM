@@ -1,5 +1,6 @@
-## set path
+## set paths
 chr.dir <- "m:/models/bacteria/hspf/Big-Elk-Cadmus-HydCal-Updated-WDM"
+chr.dir.pest.hspf <- paste0(chr.dir, "/pest-hspf-files")
 
 ## observed data for control file processed by ""
 chr.file.obs <- "obs-group-data-flow-removed.RData"
@@ -30,7 +31,6 @@ lng.max.nchar <- max(nchar(
     paste0(chr.obs.grp, paste0("_%0", lng.num.obs.dgt, "i")), 0)))
 
 ## create string of obs for pest control file, make weight 1/value for obs
-## mlog_1                 1.658966        6.027852E-02  mlog
 chr.obs.blk <- ""
 chr.col.spc <- "     "
 
@@ -69,7 +69,8 @@ chr.obs.grp.names <-
 chr.control.new <- chr.control
 
 ## replace the number of obs and number of obs groups
-tmp.ln.4 <- strsplit(gsub("( ){1,}", ",",gsub("^( ){1,}","", chr.control.new[4])), split = ",")[[1]]
+tmp.ln.4 <- strsplit(gsub("( ){1,}", ",",gsub("^( ){1,}","", chr.control.new[4])),
+                     split = ",")[[1]]
 tmp.ln.4[2] <- as.character(lng.num.obs)
 tmp.ln.4[5] <- as.character(lng.num.obs.grp)
 chr.control.new[4] <- paste0(
@@ -81,10 +82,18 @@ lng.obs.ed <- lng.obs.st + min(grep("\\* " ,
                        chr.control.new[(lng.obs.st + 1):length(chr.control.new)]))
 chr.control.new <- c(chr.control.new[1:lng.obs.st], 
                      chr.obs.blk, 
-                     chr.control.new[lng.obs.ed:length(chr.control)])
+                     chr.control.new[lng.obs.ed:length(chr.control.new)])
 
 ## update obs group block
+## insert new block of observations into the control
+lng.obs.grp.st <- grep("\\* observation groups" ,chr.control.new)
+lng.obs.grp.ed <- lng.obs.grp.st + min(grep("\\* " , 
+                                    chr.control.new[(lng.obs.grp.st + 1):length(chr.control.new)]))
+chr.control.new[lng.obs.grp.st:lng.obs.grp.ed]
 
+chr.control.new <- c(chr.control.new[1:lng.obs.grp.st], 
+                     chr.obs.grp, 
+                     chr.control.new[lng.obs.grp.ed:length(chr.control.new)])
 ## write updated control file
-write.table(chr.control.new, file = paste0(chr.dir,"/new.pst"), 
+write.table(chr.control.new, file = paste0(chr.dir.pest.hspf,"/control-new.pst"), 
             row.names = FALSE, col.names = FALSE, quote = FALSE)
