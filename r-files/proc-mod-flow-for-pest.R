@@ -257,13 +257,93 @@ mtime <- as.numeric(quantile(x = df.out.raw$flow.cfs, probs = tmp.per))
 rm(tmp.per)
 
 ## get mlog
-mlog <- log10(df.flow.est.sim.period$flow + 1E-04)
+mlog <- log10( df.out.raw$flow.cfs + 1E-04)
 
 ## get mflow
-mflow <- df.flow.est.sim.period$flow
+mflow <-  df.out.raw$flow.cfs
+
+## write to model.out file
+## set numerber of decimal places
+lng.num.dec <- 6
+
+## get names of groups, assumes all/only variable names in workspace start with "m"
+chr.grp <- ls(pattern = "^m.*")
+
+## number groups
+lng.num.grp <- length(chr.grp)
+
+## get numbner of values
+lng.num.val <- sum(sapply(chr.grp, 
+                          function(chr.name = NULL) 
+                            length(eval(as.name(chr.name)))))
+## get the number of digits to use in format names
+lng.num.dgt <- max(
+  nchar(
+    max(
+      sapply(chr.grp, function(chr.name = NULL) 
+        length(eval(as.name(chr.name)))))), 1)
+
+## get max number of charcters for obs name
+lng.max.nchar <- max(nchar(
+  sprintf(
+    paste0(chr.grp, paste0("_%0", lng.num.dgt, "i")), 0)))
+
+## create string for model.out
+chr.blk.out <- ""
+chr.col.spc <- "   "
+
+for(ii in 1:length(chr.grp)) {
+  tmp.grp <- chr.grp[ii]
+  tmp.data <- eval(as.name(tmp.grp))
+  tmp.blk <- ""
+  for(jj in 1:length(tmp.data)) {
+    tmp.nme <- sprintf(paste0("%-",lng.max.nchar,"s"),sprintf(paste0(tmp.grp, paste0("_%0", lng.num.dgt, "i")), jj))
+    tmp.val <- sprintf(paste0("%.", lng.num.dec, "E"), tmp.data[jj])
+    tmp.blk <- c(tmp.blk,
+                 paste0(tmp.nme, chr.col.spc, tmp.val))
+    rm(tmp.nme, tmp.val)
+  }
+  tmp.blk <- tmp.blk[-1]
+  chr.blk.out <- c(chr.blk.out, tmp.blk)
+  rm(tmp.grp, tmp.data, tmp.blk)
+}
+## clean up
+rm(ii, jj)
+
+## get rid of blank first row
+chr.blk.out <- chr.blk.out[-1]
+
+## write model.out file
+write.table(chr.blk.out, file = paste0(chr.dir.pest.hspf,"/model.out"), 
+            row.names = FALSE, col.names = FALSE, quote = FALSE)
+
+## create chr bolck for model.ins file
+lng.ins.str <- lng.max.nchar + lng.num.dgt
+lng.ins.end <- lng.ins.str + lng.num.dec + 6 ## 6 is for other parts of E format
+chr.blk.ins <- "pif $"
+for(ii in 1:length(chr.grp)) {
+  tmp.grp <- chr.grp[ii]
+  tmp.len <- length(eval(as.name(tmp.grp)))
+  tmp.blk <- ""
+  for(jj in 1:tmp.len) {
+##    tmp.nme <- sprintf(paste0("%-",lng.max.nchar,"s"),sprintf(paste0(tmp.grp, paste0("_%0", lng.num.dgt, "i")), jj))
+    tmp.nme <- sprintf(paste0(tmp.grp, paste0("_%0", lng.num.dgt, "i")), jj)    
+    tmp.blk <- c(tmp.blk,
+                 paste0("l1  [", tmp.nme, "]", lng.ins.str, ":", lng.ins.end))
+    rm(tmp.nme)
+  }
+  tmp.blk <- tmp.blk[-1]
+  chr.blk.ins <- c(chr.blk.ins, tmp.blk)
+  rm(tmp.grp, tmp.blk)
+}
+
+## write model.ins file
+## clean up
+rm(ii, jj)
+
+## write model.out file
+write.table(chr.blk.ins, file = paste0(chr.dir.pest.hspf,"/model.ins"), 
+            row.names = FALSE, col.names = FALSE, quote = FALSE)
 
 
-str.obs.grp.names[order(str.obs.grp.names)] == ls(pattern = "^m[a-z]")
 
-## save obs data
-save(list = str.obs.grp.names, file = paste0(chr.dir.prime, "/ObsData/obs-group-data-flow-removed.RData"))
