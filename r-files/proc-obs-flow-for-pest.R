@@ -1,8 +1,16 @@
+## purpose of this script is to process observed flow data for use in pest calibration
+## of HSPF model for BigElk Creek. The difference in the script to previous scripts
+## for processing obs flow data is that flow on dayes when bacteria samples were 
+## collected are removed from the flow time-series. This required some additional
+## steps in calculation of some of the flow-derrived statistics.
+## 
 ## load packages
 library(DVstats, quietly = TRUE) # USGS-HySep R version in DVstats
 library(doBy, quietly = TRUE) # need doBy package to sums for annual, summer and winter
 
 ## get simulation period
+## using the uci file for the earlier calibration that used the updated 
+## simulation period
 chr.dir.uci <- "m:/models/bacteria/hspf/bigelkhydrocal201601/hspf-files"
 chr.uci <- scan(paste0(chr.dir.uci,"/bigelk.uci"), sep = "\n", 
                 what = "character", quiet = TRUE)
@@ -18,7 +26,8 @@ dt.sim.period <- as.POSIXct(
 ## primary path
 chr.dir.prime <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM"
 
-## file name of big elk flow data with the flows for dates of bacteria samples removed
+## file name of big elk flow data with the flows for dates of bacteria 
+## samples removed
 chr.file.flow.est.removed <- "obs-flow-removed.RData"
 
 ## bacteria data path
@@ -169,6 +178,7 @@ df.flow.est.reduced <- data.frame(df.flow.est.reduced, fac.season = as.factor(df
 ## clean up
 rm(df.tmp, lng.smr, lng.wtr)
 
+## get flow volumes for seasons
 df.vol.seasons <- summaryBy(flow.ac.ft ~ fac.ann + fac.season , data = df.flow.est.reduced, FUN = sum)
 
 
@@ -176,7 +186,7 @@ df.vol.seasons <- summaryBy(flow.ac.ft ~ fac.ann + fac.season , data = df.flow.e
 mvol_smr <- as.numeric(df.vol.seasons[as.character(df.vol.seasons$fac.season) == "summer", 
                            "flow.ac.ft.sum"])
 
-## mvol_wtr
+## mvol_wtr - winter volumes in ac-ft
 mvol_wtr <- as.numeric(df.vol.seasons[as.character(df.vol.seasons$fac.season) == "winter", 
                            "flow.ac.ft.sum"])
 ## storm information
@@ -208,7 +218,7 @@ for(ii in 1:length(tmp.strm.dates$keep)) {
     else tmp.strm.dates$bac.date[ii] <- NA
   }
 }
-
+## storm dates with the storms that bacteria samples colleted during removed
 df.strm.dates.reduced <- data.frame(begin = tmp.strm.dates$begin[grep("TRUE",tmp.strm.dates$keep)],
                                     end = tmp.strm.dates$end[grep("TRUE",tmp.strm.dates$keep)])
 
