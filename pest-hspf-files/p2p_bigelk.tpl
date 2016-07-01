@@ -7,7 +7,8 @@ INFILT210 = $INFILT210    $
 INFILT220 = $INFILT220    $
 INFILT310 = $INFILT310    $
 INFILT320 = $INFILT320    $
-AGWRC000 =  $AGWRC000     $
+AGWRCTR000 =  $AGWRCTR000     $
+AGWRC000 = AGWRCTR000 / (1 + AGWRCTR000)
 DEEPFR000 = $DEEPFR000    $
 BASETP000 = $BASETP000    $
 AGWETP000 = $AGWETP000    $
@@ -17,7 +18,8 @@ UZSN300 = $UZSN300      $
 INTFW100 = $INTFW100     $
 INTFW200 = $INTFW200     $
 INTFW300 = $INTFW300     $
-IRC000 = $IRC000       $
+IRCTR000 = $IRCTR000       $
+IRC000 = IRCTR000 / (1 + IRCTR000)
 CEPSC100 = $CEPSC100     $
 CEPSC200 = $CEPSC200     $
 CEPSC300 = $CEPSC300     $
@@ -96,9 +98,10 @@ LZETPSEP300  = LZETP300
 LZETPOCT300  = 0.5 * LZETP300
 LZETPNOV300  = 0.5 * LZETP300
 LZETPDEC300  = 0.5 * LZETP300
+RETSC    = $RETSC        $
 
 * template and model input files
-bigelk.tpl bigelk.sup
+M:\Models\Bacteria\HSPF\bigelkHydroCal201601\hspf-files\bigelk.tpl M:\Models\Bacteria\HSPF\bigelkHydroCal201601\hspf-files\bigelk.sup
 
 * control data
 single point
