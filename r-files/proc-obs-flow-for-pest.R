@@ -36,10 +36,27 @@ chr.dir.bac.obs <- paste0(chr.dir.prime, "/ObsData")
 ## load obs flow data
 load(file = paste0(chr.dir.bac.obs, "/", chr.file.flow.est.removed))
 
-## sub-set flow data for simulation period
-df.flow.est.sim.period <- data.frame(date = df.flow.est$date, flow = df.flow.est$mean_daily_flow_cfs)
-df.flow.est.sim.period <- df.flow.est.sim.period[df.flow.est.sim.period$date >= dt.sim.period[1] &
-                                 df.flow.est.sim.period$date <= dt.sim.period[2], ]
+## sub-set reduced flow data for simulation period
+df.flow.est.sim.period <- data.frame(date = df.flow.est$date,
+                                             flow = df.flow.est$mean_daily_flow_cfs)
+df.flow.est.sim.period <- 
+  df.flow.est.sim.period[
+    df.flow.est.sim.period$date >= dt.sim.period[1] &
+      df.flow.est.sim.period$date <= dt.sim.period[2], ]
+
+## get rows of bacteria samples dates in sim period flow
+lng.bac.flow.rows.sim.period <- grep(
+  pattern = paste0(chr.dates.bac.unique, collapse = "|"),
+  strftime(df.flow.est.sim.period$date, format = "%Y-%m-%d"))
+
+
+## sub-set reduced flow data for simulation period
+df.flow.est.reduced.sim.period <- data.frame(date = df.flow.est.reduced$date,
+                                             flow = df.flow.est.reduced$mean_daily_flow_cfs)
+df.flow.est.reduced.sim.period <- 
+  df.flow.est.reduced.sim.period[
+    df.flow.est.reduced.sim.period$date >= dt.sim.period[1] &
+      df.flow.est.reduced.sim.period$date <= dt.sim.period[2], ]
 
 ## storm dates path
 chr.dir.stm.dates <- "M:/Models/Bacteria/HSPF/HydroCal201506/R_projs/Select_Storm_HydCal"
@@ -57,40 +74,42 @@ da.be <- 88.8
 ## bacteria sample date (bck) and to the next (fwd) for each bacteria sample date
 ## and a variable to indicate that sample date has more than 1 day of flow series
 ## bewteen previous (bck) or next (fwd), chk == 1 is yes and chk == 0 in no
-df.chk <- data.frame(fwd = rep(-1000, length(lng.bac.flow.rows)),
+df.chk <- data.frame(fwd = rep(-1000, length(lng.bac.flow.rows.sim.period)),
                       bck = -1000, chk = 0)
 ## first sample date only has forward
-df.chk$fwd[1] <- lng.bac.flow.rows[1] - 1
+df.chk$fwd[1] <- lng.bac.flow.rows.sim.period[1] - 1
 ## loop to do the remeaining sample dates except the last
-for(ii in 2:(length(lng.bac.flow.rows) - 1)) {
-  df.chk$fwd[ii] <- lng.bac.flow.rows[ii + 1] - lng.bac.flow.rows[ii]
-  df.chk$bck[ii] <- lng.bac.flow.rows[ii] - lng.bac.flow.rows[ii - 1]
+for(ii in 2:(length(lng.bac.flow.rows.sim.period) - 1)) {
+  df.chk$fwd[ii] <- lng.bac.flow.rows.sim.period[ii + 1] - lng.bac.flow.rows.sim.period[ii]
+  df.chk$bck[ii] <- lng.bac.flow.rows.sim.period[ii] - lng.bac.flow.rows.sim.period[ii - 1]
 }
 ## clean up
 rm(ii)
 ## last sample date only has a backward
-df.chk$bck[length(lng.bac.flow.rows)] <- length(df.flow.est$date) -
-  lng.bac.flow.rows[length(lng.bac.flow.rows)]
+df.chk$bck[length(lng.bac.flow.rows.sim.period)] <- 
+  length(df.flow.est.reduced.sim.period$date) -
+  lng.bac.flow.rows.sim.period[length(lng.bac.flow.rows.sim.period)]
 
 ## identify sample dates that have more than one day of flow series
 df.chk$chk[df.chk$fwd > 1 & df.chk$bck > 1] <- 1
 ## first only has fwd
 if(df.chk$fwd[1] > 1) df.chk$chk[1] <- 1
 ## last only has bwd
-if(df.chk$bck[length(lng.bac.flow.rows)] > 1) df.chk$chk[length(lng.bac.flow.rows)] <- 1
+if(df.chk$bck[length(lng.bac.flow.rows.sim.period)] > 1) 
+  df.chk$chk[length(lng.bac.flow.rows.sim.period)] <- 1
 
 ## setup data.frame for the bounds of the flow series segments used to estimate
 ## baseflow index
 df.bnds <- cbind(start = -1,
                  end = -1, 
-                 bac.rows = lng.bac.flow.rows,
+                 bac.rows = lng.bac.flow.rows.sim.period,
                  df.chk,
                  len = -1,
                  bfi = -1)
 ## first start = 1
 if(df.bnds$chk[1] == 1) {
   df.bnds$start[1] <- 1
-  df.bnds$end[1] <- lng.bac.flow.rows[1] - 1
+  df.bnds$end[1] <- lng.bac.flow.rows.sim.period[1] - 1
 }
 ## do remaining sample dates that have chk == 1
 for(ii in 2:(length(df.bnds$bac.rows) - 1)) {
@@ -101,8 +120,8 @@ for(ii in 2:(length(df.bnds$bac.rows) - 1)) {
 }
 ## last end is the length of the flow series
 if(df.bnds$chk[length(df.bnds$chk)] == 1) {
-  df.bnds$start[length(lng.bac.flow.rows)] <- lng.bac.flow.rows[length(lng.bac.flow.rows)] + 1
-  df.bnds$end[length(lng.bac.flow.rows)] <- length(df.flow.est$date)
+  df.bnds$start[length(lng.bac.flow.rows.sim.period)] <- lng.bac.flow.rows.sim.period[length(lng.bac.flow.rows.sim.period)] + 1
+  df.bnds$end[length(lng.bac.flow.rows.sim.period)] <- length(df.flow.est.sim.period$date)
 }
 ## get the length of the segements
 df.bnds$len <- df.bnds$end - df.bnds$start
@@ -115,8 +134,8 @@ for(ii in 1:length(df.bnds$bfi)) {
     tmp.seq <- seq.int(from = df.bnds$start[ii], to = df.bnds$end[ii])
     ## use try function becuase can get error from hysep if there is only
     ## one minima (i think this means a constant slope)
-    tmp.hysep88.8 <- try(hysep(Flow = df.flow.est$mean_daily_flow_cfs[tmp.seq], 
-                               Dates = as.Date(df.flow.est$date[tmp.seq]), da = da.be,
+    tmp.hysep88.8 <- try(hysep(Flow = df.flow.est.sim.period$flow[tmp.seq], 
+                               Dates = as.Date(df.flow.est.sim.period$date[tmp.seq]), da = da.be,
                                select = "sliding"), silent = TRUE)
     if(class(tmp.hysep88.8)[1] == "baseflow") {
       ## only calculate baseflow index for error free hysep
@@ -142,24 +161,24 @@ rm(ii, df.chk,lng.bfi, lng.bac.flow.rows)
 
 ## convert stream flow from cu ft / sec to ac-ft / day for use in volumes
 ## (1 cu ft / sec) * (86400 sec / day) * (1 ac-ft / 43559.9 cu ft)
-df.flow.est.reduced <- cbind(df.flow.est.reduced, 
-                flow.ac.ft =  86400 * (1 / 43559.9) * df.flow.est.reduced$mean_daily_flow_cfs)
+df.flow.est.reduced.sim.period <- cbind(df.flow.est.reduced.sim.period, 
+                flow.ac.ft =  86400 * (1 / 43559.9) * df.flow.est.reduced.sim.period$flow)
 
 ## mvol_ann - annual volumes in ac-ft
 ## create factor for year
-df.flow.est.reduced <- cbind(df.flow.est.reduced, 
+df.flow.est.reduced.sim.period <- cbind(df.flow.est.reduced.sim.period, 
                 fac.ann  = as.factor(
-                  strftime(df.flow.est.reduced$date, format = "%Y")))
+                  strftime(df.flow.est.reduced.sim.period$date, format = "%Y")))
 mvol_ann <- as.numeric(
-  summaryBy(flow.ac.ft ~ fac.ann, data = df.flow.est.reduced, FUN = sum)[ ,2])
+  summaryBy(flow.ac.ft ~ fac.ann, data = df.flow.est.reduced.sim.period, FUN = sum)[ ,2])
 
 ## create factor for month used in mvol_smr and mvol_wtr calculations
-df.flow.est.reduced <- cbind(df.flow.est.reduced, 
+df.flow.est.reduced.sim.period <- cbind(df.flow.est.reduced.sim.period, 
                 fac.mon  = as.factor(
-                  strftime(df.flow.est.reduced$date, format = "%b")))
+                  strftime(df.flow.est.reduced.sim.period$date, format = "%b")))
 
 ## create factor for month used in mvol_smr and mvol_wtr calculations
-df.tmp <- data.frame(mon=as.character(df.flow.est.reduced$fac.mon), season = "none", 
+df.tmp <- data.frame(mon=as.character(df.flow.est.reduced.sim.period$fac.mon), season = "none", 
                      stringsAsFactors = FALSE)
 
 ## summer season, summer is Jun, Jul and Aug
@@ -173,13 +192,16 @@ df.tmp$season[lng.smr] <- "summer"
 df.tmp$season[lng.wtr] <- "winter"
 
 ## add season as factor to df.mod 
-df.flow.est.reduced <- data.frame(df.flow.est.reduced, fac.season = as.factor(df.tmp$season))
+df.flow.est.reduced.sim.period <- 
+  data.frame(df.flow.est.reduced.sim.period, 
+             fac.season = as.factor(df.tmp$season))
 
 ## clean up
 rm(df.tmp, lng.smr, lng.wtr)
 
 ## get flow volumes for seasons
-df.vol.seasons <- summaryBy(flow.ac.ft ~ fac.ann + fac.season , data = df.flow.est.reduced, FUN = sum)
+df.vol.seasons <- summaryBy(flow.ac.ft ~ fac.ann + fac.season , 
+                            data = df.flow.est.reduced.sim.period, FUN = sum)
 
 
 ## mvol_smr - summer volumes in ac-ft
