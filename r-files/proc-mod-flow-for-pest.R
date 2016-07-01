@@ -5,6 +5,9 @@ library(doBy, quietly = TRUE) # need doBy package to sums for annual, summer and
 ## primary path
 chr.dir.prime <- "M:/Models/Bacteria/HSPF/Big-Elk-Cadmus-HydCal-Updated-WDM"
 
+## get read-pltgen function
+source(file = paste0(chr.dir.prime, "/r-files/read-pltgen.R"))
+
 ## bacteria data path
 chr.dir.bac.obs <- paste0(chr.dir.prime, "/ObsData")
 
