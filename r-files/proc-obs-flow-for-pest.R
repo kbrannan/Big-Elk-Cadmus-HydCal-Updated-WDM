@@ -228,13 +228,14 @@ df.bac.dates <- data.frame(date = df.flow.est$date[df.bnds$bac.rows])
 
 ## check if bacteria samples are within storms
 tmp.strm.dates <- cbind(df.strm.dates[, 1:2], keep = TRUE, bac.date = as.POSIXct("1967-07-02 00:00"))
+tmp.bac.dates <- as.POSIXct(chr.dates.bac.unique)
 ## brute force not elegant
 for(ii in 1:length(tmp.strm.dates$keep)) {
-  for(jj in 1:length(df.bac.dates$date)) {
-    if(as.numeric(df.bac.dates$date[jj]) >=  as.numeric(df.strm.dates$begin[ii]) & 
-       as.numeric(df.bac.dates$date[jj]) <= as.numeric(df.strm.dates$end[ii])) {
+  for(jj in 1:length(chr.dates.bac.unique)) {
+    if(as.numeric(tmp.bac.dates[jj]) >=  as.numeric(df.strm.dates$begin[ii]) & 
+       as.numeric(tmp.bac.dates[jj]) <= as.numeric(df.strm.dates$end[ii])) {
       tmp.strm.dates$keep[ii] <- FALSE
-      tmp.strm.dates$bac.date[ii] <- as.Date(df.bac.dates$date[jj])
+      tmp.strm.dates$bac.date[ii] <- tmp.bac.dates[jj]
       break
     }
     else tmp.strm.dates$bac.date[ii] <- NA
