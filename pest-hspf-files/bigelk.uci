@@ -11,10 +11,11 @@ FILES
 <FILE>  <UN#>***<----FILE NAME------------------------------------------------->
 MESSU      24   bigelk.ech
            91   bigelk.out
-WDM1       25   bigelk_out.wdm
 WDM2       26   bigelkwqupdt.wdm
 BINO       92   bigelk.hbn
 PESTSU     27   bigelk.sup
+           50   modflow.out
+
 END FILES
  
 OPN SEQUENCE
@@ -50,8 +51,37 @@ OPN SEQUENCE
       RCHRES      17
       RCHRES      18
       COPY         1
+      PLTGEN       1
     END INGRP
 END OPN SEQUENCE
+
+
+PLTGEN
+  PLOTINFO
+  <-range><fil><npt><nmn><lab><pyr><piv><typ> ***
+    # -  # FILE  NPT  NMN LABL  PYR PIVL TYPE ***
+  001        50    0    1    0    9   24    1
+  END PLOTINFO
+  
+  GEN-LABELS
+  <-range><--------------- title ----------------> ***
+    # -  #  General Title                          ***
+    1       Model flow at outlet Big Elk Creek
+  END GEN-LABELS
+  
+  SCALING
+  <-range><--ymin--><--ymax--><--ivlin-><-thresh-> ***
+    # -  #      YMIN      YMAX     IVLIN    THRESH ***
+    1                    1E+12        30   -1.0E32    
+  END SCALING
+  
+  CURV-DATA
+  <-range>    <-----label----><lin><int><col> <tr> ***
+              Curve label      Line Intg  Col Tran ***
+    # -  #                     type  eqv code code ***
+    1         ac-ft/day           0    0    1 SUM
+  END CURV-DATA
+END PLTGEN
  
 PERLND
   ACTIVITY
@@ -775,29 +805,16 @@ PERLND 312                         3.5     RCHRES  18      2
 PERLND 322                        21.5     RCHRES  18      2
 IMPLND 302                       154.0     RCHRES  18      1
 RCHRES  17                                 RCHRES  18      3
-*** Copy 1
-PERLND 111                         3.3     COPY     1      4
-PERLND 112                      3809.5     COPY     1      4
-PERLND 121                      9379.3     COPY     1      4
-PERLND 122                     37647.5     COPY     1      4
-PERLND 212                      1151.5     COPY     1      4
-PERLND 221                       125.4     COPY     1      4
-PERLND 222                      1551.8     COPY     1      4
-PERLND 312                        82.4     COPY     1      4
-PERLND 321                        81.8     COPY     1      4
-PERLND 322                       244.0     COPY     1      4
 END SCHEMATIC
- 
-EXT TARGETS
-<-Volume-> <-Grp> <-Member-><--Mult-->Tran <-Volume-> <Member> Tsys Aggr Amd ***
-<Name>   x        <Name> x x<-factor->strg <Name>   x <Name>qf  tem strg strg***
-RCHRES  18 HYDR   RO     1 1          AVER WDM1   102 FLOW   1 ENGL AGGR REPL
-COPY     1 OUTPUT MEAN   1 1          AVER WDM1   103 PERO   1 ENGL AGGR REPL
-COPY     1 OUTPUT MEAN   2 1          AVER WDM1   104 AGWO   1 ENGL AGGR REPL
-COPY     1 OUTPUT MEAN   3 1          AVER WDM1   105 IFWO   1 ENGL AGGR REPL
-COPY     1 OUTPUT MEAN   4 1          AVER WDM1   106 SURO   1 ENGL AGGR REPL
-END EXT TARGETS
- 
+
+NETWORK
+<svol><o#> <sgrp> <smem><m#><-mfact--><tr> <tvol>< range> <tgrp> <tmem><m#> ***
+<-Volume-> <-Grp> <-Member-><--Mult-->Tran <-Target vols> <-Grp> <-Member-> ***
+<Name>   #        <Name> # #<-factor->strg <Name>   #   #        <Name> # # ***
+*** outflow is ac-ft / hr
+RCHRES 018 HYDR   ROVOL                    PLTGEN   1     INPUT  MEAN   1
+END NETWORK
+
 MASS-LINK
  
   MASS-LINK        1
