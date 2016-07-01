@@ -34,5 +34,7 @@ lng.bac.flow.rows <- grep(pattern = paste0(chr.dates.bac.unique, collapse = "|")
 df.flow.est.reduced <- df.flow.est[-1 * lng.bac.flow.rows, ]
 
 ## save a copy of the big elk flow data with the flows for dates of bacteria samples removed
-save(list = c("df.flow.est","df.flow.est.reduced", "lng.bac.flow.rows"), file = paste0(chr.dir.bac.obs, "/", chr.file.flow.est.removed))
+save(list = c("df.flow.est","df.flow.est.reduced", "lng.bac.flow.rows", 
+              "chr.dates.bac.unique"), 
+     file = paste0(chr.dir.bac.obs, "/", chr.file.flow.est.removed))
 
