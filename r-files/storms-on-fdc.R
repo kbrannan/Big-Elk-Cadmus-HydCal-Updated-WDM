@@ -1,5 +1,8 @@
+## root path
+chr.root.dir <- "m:/models/bacteria/hspf/big-elk-cadmus-hydcal-updated-wdm/"
+
 ## main path
-chr.main.dir <- "m:/models/bacteria/hspf/big-elk-cadmus-hydcal-updated-wdm/pest-hspf-files/upd-calib"
+chr.main.dir <- "m:/models/bacteria/hspf/big-elk-cadmus-hydcal-updated-wdm/pest-hspf-files/"
 
 ## fdc path 
 chr.fdc.dir <- "m:/models/bacteria/hspf/big-elk-cadmus-hydcal-updated-wdm/pest-hspf-files/upd-uncert"
@@ -7,9 +10,12 @@ chr.fdc.dir <- "m:/models/bacteria/hspf/big-elk-cadmus-hydcal-updated-wdm/pest-h
 ## load fdc RData
 load(file = paste0(chr.fdc.dir, "/uncert-fdc-est.RData"))
 
+## load storm dates 
+load(file = paste0(chr.root.dir, "ObsData/strm-dates-used.RData"))
+
 ## esitmate fdc for obs storms
 ## open connection to the current res file
-con.res <- file(paste0(chr.main.dir, "/calib.res"), open = "r")
+con.res <- file(paste0(chr.main.dir, "/control-new.res"), open = "r")
 ## check connection
 if(isOpen(con.res)) {
   ## get flow data
@@ -17,7 +23,7 @@ if(isOpen(con.res)) {
   ## close the file connection
   close(con.res)
   ## get storm peak data
-  tmp.peak.rows <- grep("mpeak([0-9]){1,}_max", tmp.res.file)
+  tmp.peak.rows <- grep("mpeak", tmp.res.file)
   tmp.stm.peak.chr <- do.call(rbind,
                               strsplit(
                                 gsub("( ){1,}",",", 
@@ -58,18 +64,22 @@ if(isOpen(con.res)) {
                                                 gsub("[^0-9]","", 
                                                      tmp.stm.vol.chr[, 2]))))
   ## get storm dates
-  tmp.stm.chr <- scan(file=paste0(chr.main.dir, "/dates_stm.dat"),
-                      sep = "\n", what = "character")
-  tmp.stm.date.chr <- 
-    do.call(
-      rbind,
-      strsplit(gsub("( ){1,}",",",tmp.stm.chr), split = ","))[, c(1,3)]
-  tmp.stm.date <- data.frame(
-    bgn =strptime(tmp.stm.date.chr[, 1], format = "%m/%d/%Y"),
-    end = strptime(tmp.stm.date.chr[, 2], format = "%m/%d/%Y"))
+  # tmp.stm.chr <- scan(file=paste0(chr.main.dir, "/dates_stm.dat"),
+  #                     sep = "\n", what = "character")
+  # tmp.stm.date.chr <- 
+  #   do.call(
+  #     rbind,
+  #     strsplit(gsub("( ){1,}",",",tmp.stm.chr), split = ","))[, c(1,3)]
+  # tmp.stm.date <- data.frame(
+  #   bgn =strptime(tmp.stm.date.chr[, 1], format = "%m/%d/%Y"),
+  #   end = strptime(tmp.stm.date.chr[, 2], format = "%m/%d/%Y"))
+  ## add storm durations
+  tmp.stm.date <- df.strm.dates.reduced
+  names(tmp.stm.date) <- c("bgn", "end")
+  ## add storm durations to date data frame
   tmp.stm.date <- cbind(tmp.stm.date,
-                        days = round(as.numeric(tmp.stm.date[, 2] - tmp.stm.date[, 1])))
-
+                         days = round(as.numeric(tmp.stm.date[, 2] - tmp.stm.date[, 1])))
+  
   ## ave storm flow
   tmp.stm.ave.flow <- tmp.stm.vol
   tmp.stm.ave.flow$y <- (tmp.stm.vol$y / rep(tmp.stm.date$days, 2)) * 43560 / ( 24 * 3600)
