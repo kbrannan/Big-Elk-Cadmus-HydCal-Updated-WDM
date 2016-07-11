@@ -2,6 +2,12 @@
 chr.dir <- "m:/models/bacteria/hspf/Big-Elk-Cadmus-HydCal-Updated-WDM"
 chr.dir.pest.hspf <- paste0(chr.dir, "/pest-hspf-files")
 
+## pest control template file
+chr.file.pest.tpl <- "control-tpl.pst"
+
+## new pest control file name
+chr.file.pest.new <- "control-new.pst"
+
 ## observed data for control file processed by ""
 chr.file.obs <- "obs-group-data-flow-removed.RData"
 
@@ -39,10 +45,13 @@ for(ii in 1:length(chr.obs.grp)) {
   tmp.grp <- chr.obs.grp[ii]
   tmp.data <- eval(as.name(tmp.grp))
   tmp.blk <- ""
+  ##tmp.wt <- 1 / length(tmp.data) ## weight the group by the number of observations in the group
+  ##tmp.wt <- lng.num.obs / length(tmp.data)
+  tmp.wt <- 1 ## back to weight 1 / obs value
   for(jj in 1:length(tmp.data)) {
     tmp.nme <- sprintf(paste0("%-",lng.max.nchar,"s"),sprintf(paste0(tmp.grp, paste0("_%0", lng.num.obs.dgt, "i")), jj))
     tmp.val <- sprintf("%8.4E", tmp.data[jj])
-    tmp.wtg <- sprintf("%8.4E", abs(1/tmp.data[jj])) ## initial weight set to inverse of value
+    tmp.wtg <- sprintf("%8.4E", tmp.wt * abs(1/tmp.data[jj])) ## initial weight set to inverse of value
     tmp.blk <- c(tmp.blk,
                  paste0(tmp.nme, chr.col.spc, tmp.val, chr.col.spc, tmp.wtg,
                         chr.col.spc, tmp.grp))
@@ -50,14 +59,13 @@ for(ii in 1:length(chr.obs.grp)) {
   }
   tmp.blk <- tmp.blk[-1]
   chr.obs.blk <- c(chr.obs.blk, tmp.blk)
-  rm(tmp.grp, tmp.data, tmp.blk)
+  rm(tmp.grp, tmp.data, tmp.wt, tmp.blk)
 }
 ## get rid of first row becuase it is empty
 chr.obs.blk <- chr.obs.blk[-1]
 
 # get pest control file
-chr.dir.pst <- "m:/models/bacteria/hspf/bigelkhydrocal201601/pest-files"
-chr.control <- scan(paste0(chr.dir.pst,"/control.pst"), sep = "\n", 
+chr.control <- scan(paste0(chr.dir.pest.hspf, "/", chr.file.pest.tpl), sep = "\n", 
                     what = "character", quiet = TRUE)
 tmp.blk.hd <- grep("\\*", chr.control)
 chr.obs.grp.names <- 
@@ -95,5 +103,5 @@ chr.control.new <- c(chr.control.new[1:lng.obs.grp.st],
                      chr.obs.grp, 
                      chr.control.new[lng.obs.grp.ed:length(chr.control.new)])
 ## write updated control file
-write.table(chr.control.new, file = paste0(chr.dir.pest.hspf,"/control-new.pst"), 
+write.table(chr.control.new, file = paste0(chr.dir.pest.hspf,"/", chr.file.pest.new), 
             row.names = FALSE, col.names = FALSE, quote = FALSE)
