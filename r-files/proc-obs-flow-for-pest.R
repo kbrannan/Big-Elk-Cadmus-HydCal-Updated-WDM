@@ -251,6 +251,9 @@ rm(df.strm.dates.raw, ii, jj, tmp.strm.dates)
 ## storm durations in days
 df.strm.dur <- floor(as.numeric(df.strm.dates.reduced$end - df.strm.dates.reduced$begin))
 
+## save storm dates for post calibraton analysis
+save(df.strm.dates.reduced, file = paste0(chr.dir.prime, "/ObsData/strm-dates-used.RData"))
+
 ## mpeak
 mpeak <- rep(-1, length(df.strm.dates.reduced$begin))
 
