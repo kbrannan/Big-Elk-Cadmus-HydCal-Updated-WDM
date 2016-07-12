@@ -101,7 +101,7 @@ LZETPDEC300  = 0.5 * LZETP300
 RETSC    = $RETSC        $
 
 * template and model input files
-M:\Models\Bacteria\HSPF\bigelkHydroCal201601\hspf-files\bigelk.tpl M:\Models\Bacteria\HSPF\bigelkHydroCal201601\hspf-files\bigelk.sup
+M:\Models\Bacteria\HSPF\Big-Elk-Cadmus-HydCal-Updated-WDM\pest-hspf-files\bigelk.tpl M:\Models\Bacteria\HSPF\Big-Elk-Cadmus-HydCal-Updated-WDM\pest-hspf-files\bigelk.sup
 
 * control data
 single point
