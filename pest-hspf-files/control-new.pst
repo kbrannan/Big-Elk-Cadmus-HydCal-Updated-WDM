@@ -6,7 +6,7 @@ restart estimation
 5.0   2.0    0.3    0.03    10  999
 5.0   5.0   1.0e-3
 0.1   noaui
-   50  .005  4   4  .005   4
+   25  .005  4   4  .005   4
 1    1    1
 * singular value decomposition
 1
@@ -26,31 +26,31 @@ cepsc        relative     1.0000E-02  1.0000E-03  switch      2.000      parabol
 lzetp        relative     1.0000E-02  1.0000E-03  switch      2.000      parabolic
 iwatr        relative     1.0000E-02  1.0000E-03  switch      2.000      parabolic
 * parameter data
-lzsn000       log    factor    2.000000      2.0000        15.000      lzsn           1.000       0.000        1
-infilt110     log    factor   8.2485132E-02  1.00000e-03   0.50000      infilt         1.000       0.000        1
-infilt120     log    factor   0.1610981      1.00000e-03   0.50000      infilt         1.000       0.000        1
-infilt210     log    factor   5.6768311E-03  1.00000e-03   0.50000      infilt         1.000       0.000        1
-infilt220     log    factor   0.5000000      1.00000e-03   0.50000      infilt         1.000       0.000        1
-infilt310     log    factor   8.1771636E-02  1.00000e-03   0.50000      infilt         1.000       0.000        1
-infilt320     log    factor   0.2183768      1.00000e-03   0.50000      infilt         1.000       0.000        1
-agwrctr000    log    factor    29.52952      9.30000e-01   9.990e+2     agwrc          1.000       0.000        1
-deepfr000     log    factor   1.6800716E-04  1.00000e-06   0.50000      deepfr         1.000       0.000        1
-basetp000     log    factor   2.4112900E-04  1.00000e-06   0.20000      basetp         1.000       0.000        1
-agwetp000     log    factor   1.9794672E-04  1.00000e-06   0.20000      agwetp         1.000       0.000        1
-uzsn100       log    factor   0.3062286      5.00000e-02    2.0000      uzsn           1.000       0.000        1
-uzsn200       log    factor    2.000000      5.00000e-02    2.0000      uzsn           1.000       0.000        1
-uzsn300       log    factor   0.6353827      5.00000e-02    2.0000      uzsn           1.000       0.000        1
-intfw100      log    factor    10.00000      1.0000        10.000       intfw          1.000       0.000        1
-intfw200      log    factor    1.000000      1.0000        10.000       intfw          1.000       0.000        1
-intfw300      log    factor    9.815576      1.0000        10.000       intfw          1.000       0.000        1
-irctr000      log    factor    1.388773      0.428571429   2.33333      irc            1.000       0.000        1
-cepsc100      log    factor   0.1000000      0.10000       0.40000      cepsc          1.000       0.000        1
-cepsc200      log    factor   1.4896422E-02  1.00000e-02   0.20000      cepsc          1.000       0.000        1
-cepsc300      log    factor   0.2000000      1.00000e-02   0.20000      cepsc          1.000       0.000        1
-lzetp100      log    factor   0.8000000      0.40000       0.80000      lzetp          1.000       0.000        1
-lzetp200      log    factor   0.1000000      0.10000       0.80000      lzetp          1.000       0.000        1
-lzetp300      log    factor   0.5209198      0.10000       0.80000      lzetp          1.000       0.000        1
-retsc         log    factor    1.000000      0.01000       1.00000      iwatr          1.000       0.000        1
+lzsn000       log    factor   2.00000E+00   2.00000E+00   1.50000E+01      lzsn           1.000       0.000        1
+infilt110     log    factor   8.24851E-02   1.00000E-03   5.00000E-01      infilt         1.000       0.000        1
+infilt120     log    factor   1.61098E-01   1.00000E-03   5.00000E-01      infilt         1.000       0.000        1
+infilt210     log    factor   5.67683E-03   1.00000E-03   5.00000E-01      infilt         1.000       0.000        1
+infilt220     log    factor   5.00000E-01   1.00000E-03   5.00000E-01      infilt         1.000       0.000        1
+infilt310     log    factor   8.17716E-02   1.00000E-03   5.00000E-01      infilt         1.000       0.000        1
+infilt320     log    factor   2.18377E-01   1.00000E-03   5.00000E-01      infilt         1.000       0.000        1
+agwrctr000    log    factor   2.95295E+01   9.30000E-01   9.99000E+02      agwrc          1.000       0.000        1
+deepfr000     log    factor   1.68007E-04   1.00000E-06   5.00000E-01      deepfr         1.000       0.000        1
+basetp000     log    factor   2.41129E-04   1.00000E-06   2.00000E-01      basetp         1.000       0.000        1
+agwetp000     log    factor   1.97946E-04   1.00000E-06   2.00000E-01      agwetp         1.000       0.000        1
+uzsn100       log    factor   3.06229E-01   5.00000E-02   2.00000E+00      uzsn           1.000       0.000        1
+uzsn200       log    factor   2.00000E+00   5.00000E-02   2.00000E+00      uzsn           1.000       0.000        1
+uzsn300       log    factor   6.35383E-01   5.00000E-02   2.00000E+00      uzsn           1.000       0.000        1
+intfw200      log    factor   1.00000E+00   1.00000E+00   1.00000E+01      intfw          1.000       0.000        1
+intfw300      log    factor   9.81558E+00   1.00000E+00   1.00000E+01      intfw          1.000       0.000        1
+intfw100      log    factor   1.00000E+01   1.00000E+00   1.00000E+01      intfw          1.000       0.000        1
+irctr000      log    factor   1.38877E+00   4.28571E-01   2.33333E+00      irc            1.000       0.000        1
+cepsc100      log    factor   1.00000E-01   1.00000E-01   4.00000E-01      cepsc          1.000       0.000        1
+cepsc200      log    factor   1.48964E-02   1.00000e-02   2.00000E-01      cepsc          1.000       0.000        1
+cepsc300      log    factor   2.00000E-01   1.00000e-02   2.00000E-01      cepsc          1.000       0.000        1
+lzetp100      log    factor   8.00000E-01   4.00000E-01   8.00000E-01      lzetp          1.000       0.000        1
+lzetp200      log    factor   1.00000E-01   1.00000E-01   8.00000E-01      lzetp          1.000       0.000        1
+lzetp300      log    factor   5.20920E-01   1.00000E-01   8.00000E-01      lzetp          1.000       0.000        1
+retsc         log    factor   1.00000E+00   1.00000E-02   1.00000E+00      iwatr          1.000       0.000        1
 * observation groups
 mbaseind
 mflow
@@ -13940,7 +13940,7 @@ mvol_wtr_0018     1.9633E+05     5.0936E-06     mvol_wtr
 mvol_wtr_0019     7.2961E+04     1.3706E-05     mvol_wtr
 mvol_wtr_0020     7.0186E+04     1.4248E-05     mvol_wtr
 * model command line
-model.bat
+M:\Models\Bacteria\HSPF\Big-Elk-Cadmus-HydCal-Updated-WDM\pest-hspf-files\model.bat
 * model input/output
-p2p_bigelk.tpl   p2p_bigelk.dat
-model.ins   model.out
+M:\Models\Bacteria\HSPF\Big-Elk-Cadmus-HydCal-Updated-WDM\pest-hspf-files\p2p_bigelk.tpl   M:\Models\Bacteria\HSPF\Big-Elk-Cadmus-HydCal-Updated-WDM\pest-hspf-files\p2p_bigelk.dat
+M:\Models\Bacteria\HSPF\Big-Elk-Cadmus-HydCal-Updated-WDM\pest-hspf-files\model.ins   M:\Models\Bacteria\HSPF\Big-Elk-Cadmus-HydCal-Updated-WDM\pest-hspf-files\model.out
