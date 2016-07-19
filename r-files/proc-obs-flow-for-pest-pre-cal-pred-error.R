@@ -60,10 +60,11 @@ lng.bac.flow.rows.sim.period <- grep(
 ## get flow data for days bacteria samples collected
 df.flow.est.pred <- df.flow.est.sim.period[lng.bac.flow.rows.sim.period, ]
 
+## save opbs flow data to file for use in processing of model output
+save(df.flow.est.pred, file = paste0(chr.dir.pred.pre.cal, "/obs-flow.RData"))
 
 ## clean up
-rm(list = c(grep("pred$", ls(pattern="^df\\."), invert = TRUE, value = TRUE),
-            ls(pattern = "(^lng\\.)|(^chr\\.file)")))
+rm(df.flow.est, df.flow.est.reduced, df.flow.est.sim.period)
 
 
 # get template pest control file for predictive uncertainty
@@ -111,13 +112,10 @@ for(jj in 1:length(tmp.data)) {
 tmp.blk <- tmp.blk[-1]
 chr.obs.blk <- c(chr.obs.blk, tmp.blk)
 chr.obs.blk <- chr.obs.blk[-1]
-rm(tmp.grp, tmp.data, tmp.blk)
+## clean up
+rm(tmp.grp, tmp.data, tmp.blk, jj, chr.col.spc)
 
-
-lng.blk.hd[lng.obs] + 1
-
-lng.blk.hd[lng.obs + 1] - 1
-
+## add obd data to pest control file
 chr.control.new <- 
   c(chr.control.new[1:lng.blk.hd[lng.obs]],
     chr.obs.blk,
