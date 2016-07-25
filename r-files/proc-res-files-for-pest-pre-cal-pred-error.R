@@ -8,6 +8,8 @@
 ##library(stringr)
 library(ggplot2)
 library(scales)
+library(doBy)
+library(smwrStats)
 
 ## paths
 ## primary path
@@ -26,7 +28,7 @@ load(file = paste0(chr.dir.pred.pre.cal, "/obs-flow.RData"))
 ## long format of data
 df.all.data.pred.err.pre.cal <- data.frame(
   run = "obs", 
-  pred = paste0("prediction_",sprintf("%03i",1:length(df.flow.mod.pred$res))),
+  pred = paste0("prediction_",sprintf("%03i",1:length(df.flow.est.pred$flow))),
   flow=df.flow.est.pred$flow)
 
 
@@ -47,7 +49,7 @@ for(ii in 1:n.run) {
   
   df.tmp <- data.frame(
     run = paste0(chr.prefix.res, ii), 
-    pred = paste0("prediction_",sprintf("%03i",1:length(df.flow.mod.pred$res))),
+    pred = paste0("prediction_",sprintf("%03i",1:length(df.flow.est.pred$flow))),
     flow=abs(df.flow.est.pred$flow + as.numeric(df.cur.res[, 2])))
   
   df.all.data.pred.err.pre.cal <- rbind(df.all.data.pred.err.pre.cal, df.tmp)
@@ -58,8 +60,23 @@ for(ii in 1:n.run) {
 save(df.all.data.pred.err.pre.cal, 
      file = paste0(chr.dir.pred.pre.cal, "/", chr.filename.save, ".RData"))
 
+
+junk <- data.frame(df.all.data.pred.err.pre.cal, res = NA)
+
+str(junk)
+
+junk.2 <- transformBy(~ run, data = junk[junk$run != "obs", ], res = (flow - junk$flow[junk$run == "obs"]))
+
+
+tail(jun)
 ## clean up
-rm(df.flow.est.pred, df.flow.mod.pred)
+rm(df.flow.est.pred)
+
+## look at sd for residuals
+summaryBy(res ~ pred, data = junk.2, FUN = c(mean,sd,skew))
+
+
+
 
 ## boxplots
 p.box <- 
@@ -93,7 +110,7 @@ p.hist <-
 plot(p.hist)
 
 ## densities
-chr.pred <- "prediction_023"
+chr.pred <- "prediction_027"
 p.dens <- 
   ggplot(
     data = df.all.data.pred.err.pre.cal[df.all.data.pred.err.pre.cal$pred == chr.pred &
