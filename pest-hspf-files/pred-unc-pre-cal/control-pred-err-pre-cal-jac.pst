@@ -1,0 +1,105 @@
+pcf
+* control data
+restart estimation
+     25     44     12     0     1
+     1     1   single   point   1   0   0
+5.0   2.0    0.3    0.03    10  999
+5.0   5.0   1.0e-3
+0.1   noaui
+   -1  .005  4   4  .005   4
+1    1    1
+* singular value decomposition
+1
+    10  5.0000000E-07
+0
+* parameter groups
+lzsn         relative     1.0000E-02  1.0000E-03  switch      2.000      parabolic
+infilt       relative     1.0000E-02  1.0000E-03  switch      2.000      parabolic
+agwrc        relative     1.0000E-02  1.0000E-03  switch      2.000      parabolic
+deepfr       relative     1.0000E-02  1.0000E-03  switch      2.000      parabolic
+basetp       relative     1.0000E-02  1.0000E-03  switch      2.000      parabolic
+agwetp       relative     1.0000E-02  1.0000E-03  switch      2.000      parabolic
+uzsn         relative     1.0000E-02  1.0000E-03  switch      2.000      parabolic
+intfw        relative     1.0000E-02  1.0000E-03  switch      2.000      parabolic
+irc          relative     1.0000E-02  1.0000E-03  switch      2.000      parabolic
+cepsc        relative     1.0000E-02  1.0000E-03  switch      2.000      parabolic
+lzetp        relative     1.0000E-02  1.0000E-03  switch      2.000      parabolic
+iwatr        relative     1.0000E-02  1.0000E-03  switch      2.000      parabolic
+* parameter data
+lzsn000       log    factor   8.00000E+00   2.00000E+00   1.50000E+01      lzsn           1.000       0.000        1
+infilt110     log    factor   5.00000E-02   1.00000E-03   5.00000E-01      infilt         1.000       0.000        1
+infilt120     log    factor   5.00000E-02   1.00000E-03   5.00000E-01      infilt         1.000       0.000        1
+infilt210     log    factor   5.00000E-02   1.00000E-03   5.00000E-01      infilt         1.000       0.000        1
+infilt220     log    factor   5.00000E-02   1.00000E-03   5.00000E-01      infilt         1.000       0.000        1
+infilt310     log    factor   5.00000E-02   1.00000E-03   5.00000E-01      infilt         1.000       0.000        1
+infilt320     log    factor   5.00000E-02   1.00000E-03   5.00000E-01      infilt         1.000       0.000        1
+agwrctr000    log    factor   9.90000E+01   8.40000E+01   9.99000E+02      agwrc          1.000       0.000        1
+deepfr000     log    factor   1.00000E-03   1.00000E-05   5.00000E-01      deepfr         1.000       0.000        1
+basetp000     log    factor   3.00000E-02   1.00000E-03   2.00000E-01      basetp         1.000       0.000        1
+agwetp000     log    factor   5.00000E-02   1.00000E-03   2.00000E-01      agwetp         1.000       0.000        1
+uzsn100       log    factor   5.00000E-01   5.00000E-02   2.00000E+00      uzsn           1.000       0.000        1
+uzsn200       log    factor   5.00000E-01   5.00000E-02   2.00000E+00      uzsn           1.000       0.000        1
+uzsn300       log    factor   5.00000E-01   5.00000E-02   2.00000E+00      uzsn           1.000       0.000        1
+intfw200      log    factor   1.00000E+01   1.00000E+00   1.00000E+01      intfw          1.000       0.000        1
+intfw300      log    factor   1.00000E+00   1.00000E+00   1.00000E+01      intfw          1.000       0.000        1
+intfw100      log    factor   1.00000E+00   1.00000E+00   1.00000E+01      intfw          1.000       0.000        1
+irctr000      log    factor   2.00000E+00   4.30000E-01   5.70000E+00      irc            1.000       0.000        1
+cepsc100      log    factor   2.00000E-01   1.00000E-01   4.00000E-01      cepsc          1.000       0.000        1
+cepsc200      log    factor   1.00000E-01   1.00000e-02   2.00000E-01      cepsc          1.000       0.000        1
+cepsc300      log    factor   1.00000E-01   1.00000e-02   2.00000E-01      cepsc          1.000       0.000        1
+lzetp100      log    factor   8.00000E-01   4.00000E-01   8.00000E-01      lzetp          1.000       0.000        1
+lzetp200      log    factor   6.00000E-01   1.00000E-01   8.00000E-01      lzetp          1.000       0.000        1
+lzetp300      log    factor   6.00000E-01   1.00000E-01   8.00000E-01      lzetp          1.000       0.000        1
+retsc         log    factor   1.00000E+00   1.00000E-02   1.00000E+00      iwatr          1.000       0.000        1
+* observation groups
+prediction
+* observation data
+prediction_001     0.0000E+00     1.0000E+00     prediction
+prediction_002     0.0000E+00     1.0000E+00     prediction
+prediction_003     0.0000E+00     1.0000E+00     prediction
+prediction_004     0.0000E+00     1.0000E+00     prediction
+prediction_005     0.0000E+00     1.0000E+00     prediction
+prediction_006     0.0000E+00     1.0000E+00     prediction
+prediction_007     0.0000E+00     1.0000E+00     prediction
+prediction_008     0.0000E+00     1.0000E+00     prediction
+prediction_009     0.0000E+00     1.0000E+00     prediction
+prediction_010     0.0000E+00     1.0000E+00     prediction
+prediction_011     0.0000E+00     1.0000E+00     prediction
+prediction_012     0.0000E+00     1.0000E+00     prediction
+prediction_013     0.0000E+00     1.0000E+00     prediction
+prediction_014     0.0000E+00     1.0000E+00     prediction
+prediction_015     0.0000E+00     1.0000E+00     prediction
+prediction_016     0.0000E+00     1.0000E+00     prediction
+prediction_017     0.0000E+00     1.0000E+00     prediction
+prediction_018     0.0000E+00     1.0000E+00     prediction
+prediction_019     0.0000E+00     1.0000E+00     prediction
+prediction_020     0.0000E+00     1.0000E+00     prediction
+prediction_021     0.0000E+00     1.0000E+00     prediction
+prediction_022     0.0000E+00     1.0000E+00     prediction
+prediction_023     0.0000E+00     1.0000E+00     prediction
+prediction_024     0.0000E+00     1.0000E+00     prediction
+prediction_025     0.0000E+00     1.0000E+00     prediction
+prediction_026     0.0000E+00     1.0000E+00     prediction
+prediction_027     0.0000E+00     1.0000E+00     prediction
+prediction_028     0.0000E+00     1.0000E+00     prediction
+prediction_029     0.0000E+00     1.0000E+00     prediction
+prediction_030     0.0000E+00     1.0000E+00     prediction
+prediction_031     0.0000E+00     1.0000E+00     prediction
+prediction_032     0.0000E+00     1.0000E+00     prediction
+prediction_033     0.0000E+00     1.0000E+00     prediction
+prediction_034     0.0000E+00     1.0000E+00     prediction
+prediction_035     0.0000E+00     1.0000E+00     prediction
+prediction_036     0.0000E+00     1.0000E+00     prediction
+prediction_037     0.0000E+00     1.0000E+00     prediction
+prediction_038     0.0000E+00     1.0000E+00     prediction
+prediction_039     0.0000E+00     1.0000E+00     prediction
+prediction_040     0.0000E+00     1.0000E+00     prediction
+prediction_041     0.0000E+00     1.0000E+00     prediction
+prediction_042     0.0000E+00     1.0000E+00     prediction
+prediction_043     0.0000E+00     1.0000E+00     prediction
+prediction_044     0.0000E+00     1.0000E+00     prediction
+* model command line
+model.bat
+* model input/output
+p2p_bigelk.tpl p2p_bigelk.dat
+model.ins model.out
