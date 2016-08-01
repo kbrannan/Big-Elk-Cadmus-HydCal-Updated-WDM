@@ -12,7 +12,7 @@ source(file = paste0(chr.dir.prime, "/r-files/read-pltgen.R"))
 chr.dir.bac.obs <- paste0(chr.dir.prime, "/ObsData")
 
 ## pest-hspf path
-chr.dir.pest.hspf <- paste0(chr.dir.prime, "/pest-hspf-files")
+chr.dir.pest.hspf <- paste0(chr.dir.prime, "/pest-hspf-files/cal")
 
 ## storm dates path
 chr.dir.stm.dates <- "M:/Models/Bacteria/HSPF/HydroCal201506/R_projs/Select_Storm_HydCal"
