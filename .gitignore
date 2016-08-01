@@ -27,6 +27,9 @@ pest-hspf-files/upd-uncert/
 # orginal hydrologic calibration files, these are archived elsewhere
 org-calib/
 
+# older runs not used but holding onto
+pest-hspf-files/Hold/
+
 # surface water utilities executables downloaded from pest home page
 swutils/
 
